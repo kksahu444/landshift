@@ -1,23 +1,9 @@
-\fill[cbuilt,fill opacity=.4] (-0.869,-0.280) rectangle (0,0.280);
-\fill[cbuilt] (0,-0.280) rectangle (1.142,0.280);
-\node[font=\scriptsize,anchor=east] at (-0.949,0.000) {$-$14.5};
-\node[font=\scriptsize,anchor=west] at (1.222,0.000) {+19.0};
-\node[font=\scriptsize\bfseries,anchor=east] at (-4.3,0.000) {Built-up};
-\node[font=\scriptsize,anchor=west,text=terra] at (4.0,0.000) {net +4.6};
-\node[font=\scriptsize,anchor=west,text=green] at (5.3,0.000) {swap 29.0};
-\fill[cveg,fill opacity=.4] (-0.400,-1.230) rectangle (0,-0.670);
-\fill[cveg] (0,-1.230) rectangle (2.934,-0.670);
-\node[font=\scriptsize,anchor=east] at (-0.480,-0.950) {$-$6.7};
-\node[font=\scriptsize,anchor=west] at (3.014,-0.950) {+48.9};
-\node[font=\scriptsize\bfseries,anchor=east] at (-4.3,-0.950) {Vegetation};
-\node[font=\scriptsize,anchor=west,text=terra] at (4.0,-0.950) {net +42.2};
-\node[font=\scriptsize,anchor=west,text=green] at (5.3,-0.950) {swap 13.3};
-\fill[copen,fill opacity=.4] (-3.013,-2.180) rectangle (0,-1.620);
-\fill[copen] (0,-2.180) rectangle (0.206,-1.620);
-\node[font=\scriptsize,anchor=east] at (-3.093,-1.900) {$-$50.2};
-\node[font=\scriptsize,anchor=west] at (0.286,-1.900) {+3.4};
-\node[font=\scriptsize\bfseries,anchor=east] at (-4.3,-1.900) {Open land};
-\node[font=\scriptsize,anchor=west,text=terra] at (4.0,-1.900) {net -46.8};
-\node[font=\scriptsize,anchor=west,text=green] at (5.3,-1.900) {swap 6.9};
-\draw[ink,line width=.8pt] (0,0.5) -- (0,-2.400);
-\node[font=\tiny,text=muted] at (-2,0.62) {loss (ha)}; \node[font=\tiny,text=muted] at (2,0.62) {gain (ha)};
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+ha & gained & lost & net & swap \\
+\midrule
+\sw{cbuilt}\,Built-up & 19.0 & 14.5 & \textbf{+4.6} & 29.0 \\
+\sw{cveg}\,Vegetation & 48.9 & 6.7 & \textbf{+42.2} & 13.3 \\
+\sw{copen}\,Open land & 3.4 & 50.2 & \textbf{$-$46.8} & 6.9 \\
+\bottomrule
+\end{tabular}

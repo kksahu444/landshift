@@ -10,10 +10,7 @@ from pathlib import Path
 
 import ee
 
-PROJECT = sys.argv[1]
-OUT = Path(sys.argv[2] if len(sys.argv) > 2 else 'results')
-OUT.mkdir(parents=True, exist_ok=True)
-ee.Initialize(project=PROJECT)
+ee.Initialize(project=sys.argv[1])
 
 ROOT = Path(__file__).parent.parent
 ring = json.load(open(ROOT / 'data' / 'iitkgp_campus_osm.geojson'))['coordinates'][0]
@@ -149,63 +146,72 @@ def area_table(img, field):
     return groups.getInfo()
 
 
-def thumb(img, vis, name):
+def thumb(img, vis, name, out):
     url = img.getThumbURL({**vis, 'region': aoi, 'dimensions': 1400, 'format': 'png'})
-    urllib.request.urlretrieve(url, OUT / f'{name}.png')
+    urllib.request.urlretrieve(url, out / f'{name}.png')
 
 
-results = {'campus_ha': aoi.area(1).divide(10000).getInfo(), '2020': {}, '2025': {}}
-s1, samp1 = labelled_samples(EPOCHS[0], 2020, results['2020'])
-s2, samp2 = labelled_samples(EPOCHS[1], 2025, results['2025'])
-pooled = samp1.merge(samp2)
-train = pooled.filter(ee.Filter.lt('r', 0.7))
-holdout = pooled.filter(ee.Filter.gte('r', 0.7))
-results['train'], results['holdout'] = train.size().getInfo(), holdout.size().getInfo()
-rf = ee.Classifier.smileRandomForest(numberOfTrees=100, seed=42).train(
-    features=train, classProperty='class', inputProperties=s1.bandNames())
-results['importance'] = ee.Dictionary(rf.explain().get('importance')).getInfo()
-tested = holdout.classify(rf)
-for year in (2020, 2025):
-    results[str(year)]['dw_holdout_accuracy'] = accuracy(
-        tested.filter(ee.Filter.eq('year', year)).errorMatrix('class', 'classification', ORDER))
-results['dw_holdout_accuracy_pooled'] = accuracy(tested.errorMatrix('class', 'classification', ORDER))
-# 3x3 majority filter removes isolated pixels before anything is measured.
-m1 = s1.classify(rf).focalMode(1, 'square', 'pixels').rename('class')
-m2 = s2.classify(rf).focalMode(1, 'square', 'pixels').rename('class')
+def train_forest(results):
+    """The shipped forest: both epochs' samples pooled, 70 % trains it. scripts/date_compound.py reuses it."""
+    s1, samp1 = labelled_samples(EPOCHS[0], 2020, results['2020'])
+    s2, samp2 = labelled_samples(EPOCHS[1], 2025, results['2025'])
+    pooled = samp1.merge(samp2)
+    train = pooled.filter(ee.Filter.lt('r', 0.7))
+    holdout = pooled.filter(ee.Filter.gte('r', 0.7))
+    rf = ee.Classifier.smileRandomForest(numberOfTrees=100, seed=42).train(
+        features=train, classProperty='class', inputProperties=s1.bandNames())
+    return s1, s2, train, holdout, rf
 
-results['2020']['area_ha'] = area_table(m1, 'class')
-results['2025']['area_ha'] = area_table(m2, 'class')
-# Independent points. Same matrix the Code Editor prints (unfiltered classification), then the
-# filtered map that the areas come from, weighted by stratum area: the sample is stratified by
-# map class and water, 0.2 % of the campus, has a third of the points.
-STRATA_HA = json.load(open(ROOT / 'validation' / 'strata_ha.json'))
-for stack, final, year in ((s1, m1, 2020), (s2, m2, 2025)):
-    pts = hand_points(year)
-    results[str(year)]['independent_accuracy'] = accuracy(
-        stack.sampleRegions(collection=pts, properties=['class'], scale=10, tileScale=4)
-        .classify(rf).errorMatrix('class', 'classification', ORDER))
-    on_map = final.rename('map').sampleRegions(collection=pts, properties=['class', 'stratum'], scale=10, tileScale=4)
-    sampled = [(f['properties']['stratum'], f['properties']['class'], f['properties']['map'])
-               for f in on_map.getInfo()['features']]
-    results[str(year)]['independent_area_weighted'] = area_weighted(sampled, STRATA_HA[str(year)])
-# Change has to survive a 1-pixel erosion. Strips under 30 m wide are roof edges
-# shifting between the two composites, not change.
-raw_change = m1.neq(m2)
-changed = raw_change.focalMin(1, 'square', 'pixels').focalMax(1, 'square', 'pixels').And(raw_change)
-code = m1.multiply(10).add(m1.where(changed, m2)).rename('code')
-results['transitions_ha'] = area_table(code, 'code')
-results['changed_ha'] = area_table(changed.rename('changed'), 'changed')
-results['changed_ha_before_mmu'] = area_table(raw_change.rename('changed'), 'changed')
-json.dump(results, open(OUT / 'results.json', 'w'), indent=1)
 
-pal = ['d73027', '1a9850', 'e6d98a', '2c7fb8']
-outline = ee.Image().byte().paint(ee.FeatureCollection([ee.Feature(aoi)]), 1, 2).visualize(palette=['000000'])
-for stack, year in ((s1, 2020), (s2, 2025)):
-    tc = stack.visualize(bands=['B4', 'B3', 'B2'], min=0.02, max=0.25)
-    thumb(tc.blend(outline), {}, f'true_colour_{year}')
-lulc_vis = dict(min=0, max=3, palette=pal)
-thumb(m1.visualize(**lulc_vis).blend(outline), {}, 'lulc_2020')
-thumb(m2.visualize(**lulc_vis).blend(outline), {}, 'lulc_2025')
-base = s2.visualize(bands=['B4', 'B3', 'B2'], min=0.02, max=0.25).multiply(0.5).uint8()
-thumb(base.blend(changed.selfMask().visualize(palette=['ff00ff'])).blend(outline), {}, 'change_2020_2025')
-print('wrote', OUT.resolve())
+if __name__ == '__main__':
+    OUT = Path(sys.argv[2] if len(sys.argv) > 2 else 'results')
+    OUT.mkdir(parents=True, exist_ok=True)
+    results = {'campus_ha': aoi.area(1).divide(10000).getInfo(), '2020': {}, '2025': {}}
+    s1, s2, train, holdout, rf = train_forest(results)
+    results['train'], results['holdout'] = train.size().getInfo(), holdout.size().getInfo()
+    results['importance'] = ee.Dictionary(rf.explain().get('importance')).getInfo()
+    tested = holdout.classify(rf)
+    for year in (2020, 2025):
+        results[str(year)]['dw_holdout_accuracy'] = accuracy(
+            tested.filter(ee.Filter.eq('year', year)).errorMatrix('class', 'classification', ORDER))
+    results['dw_holdout_accuracy_pooled'] = accuracy(tested.errorMatrix('class', 'classification', ORDER))
+    # 3x3 majority filter removes isolated pixels before anything is measured.
+    m1 = s1.classify(rf).focalMode(1, 'square', 'pixels').rename('class')
+    m2 = s2.classify(rf).focalMode(1, 'square', 'pixels').rename('class')
+
+    results['2020']['area_ha'] = area_table(m1, 'class')
+    results['2025']['area_ha'] = area_table(m2, 'class')
+    # Independent points. Same matrix the Code Editor prints (unfiltered classification), then the
+    # filtered map that the areas come from, weighted by stratum area: the sample is stratified by
+    # map class and water, 0.2 % of the campus, has a third of the points.
+    STRATA_HA = json.load(open(ROOT / 'validation' / 'strata_ha.json'))
+    for stack, final, year in ((s1, m1, 2020), (s2, m2, 2025)):
+        pts = hand_points(year)
+        results[str(year)]['independent_accuracy'] = accuracy(
+            stack.sampleRegions(collection=pts, properties=['class'], scale=10, tileScale=4)
+            .classify(rf).errorMatrix('class', 'classification', ORDER))
+        on_map = final.rename('map').sampleRegions(collection=pts, properties=['class', 'stratum'], scale=10, tileScale=4)
+        sampled = [(f['properties']['stratum'], f['properties']['class'], f['properties']['map'])
+                   for f in on_map.getInfo()['features']]
+        results[str(year)]['independent_area_weighted'] = area_weighted(sampled, STRATA_HA[str(year)])
+    # Change has to survive a 1-pixel erosion. Strips under 30 m wide are roof edges
+    # shifting between the two composites, not change.
+    raw_change = m1.neq(m2)
+    changed = raw_change.focalMin(1, 'square', 'pixels').focalMax(1, 'square', 'pixels').And(raw_change)
+    code = m1.multiply(10).add(m1.where(changed, m2)).rename('code')
+    results['transitions_ha'] = area_table(code, 'code')
+    results['changed_ha'] = area_table(changed.rename('changed'), 'changed')
+    results['changed_ha_before_mmu'] = area_table(raw_change.rename('changed'), 'changed')
+    json.dump(results, open(OUT / 'results.json', 'w'), indent=1)
+
+    pal = ['d73027', '1a9850', 'e6d98a', '2c7fb8']
+    outline = ee.Image().byte().paint(ee.FeatureCollection([ee.Feature(aoi)]), 1, 2).visualize(palette=['000000'])
+    for stack, year in ((s1, 2020), (s2, 2025)):
+        tc = stack.visualize(bands=['B4', 'B3', 'B2'], min=0.02, max=0.25)
+        thumb(tc.blend(outline), {}, f'true_colour_{year}', OUT)
+    lulc_vis = dict(min=0, max=3, palette=pal)
+    thumb(m1.visualize(**lulc_vis).blend(outline), {}, 'lulc_2020', OUT)
+    thumb(m2.visualize(**lulc_vis).blend(outline), {}, 'lulc_2025', OUT)
+    base = s2.visualize(bands=['B4', 'B3', 'B2'], min=0.02, max=0.25).multiply(0.5).uint8()
+    thumb(base.blend(changed.selfMask().visualize(palette=['ff00ff'])).blend(outline), {}, 'change_2020_2025', OUT)
+    print('wrote', OUT.resolve())

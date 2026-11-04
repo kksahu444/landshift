@@ -1,0 +1,79 @@
+{
+ "open_to_built_campus_ha": 13.11,
+ "site_ha": 23.81,
+ "site_centroid": [
+  87.3187,
+  22.3115
+ ],
+ "site_open_to_built_ha": 10.8,
+ "scenes_winter_dry": {
+  "2020": [
+   11,
+   11
+  ],
+  "2021": [
+   21,
+   12
+  ],
+  "2022": [
+   15,
+   9
+  ],
+  "2023": [
+   18,
+   12
+  ],
+  "2024": [
+   14,
+   7
+  ],
+  "2025": [
+   16,
+   13
+  ]
+ },
+ "compound_pixels_by_year_ha": {
+  "2020": {
+   "built-up": 0,
+   "vegetation": 0,
+   "open land": 10.8,
+   "water": 0
+  },
+  "2021": {
+   "built-up": 1.33,
+   "vegetation": 0.06,
+   "open land": 9.42,
+   "water": 0
+  },
+  "2022": {
+   "built-up": 4.11,
+   "vegetation": 2.11,
+   "open land": 4.59,
+   "water": 0
+  },
+  "2023": {
+   "built-up": 8.23,
+   "vegetation": 0.06,
+   "open land": 2.5,
+   "water": 0
+  },
+  "2024": {
+   "built-up": 6.92,
+   "vegetation": 0.41,
+   "open land": 3.47,
+   "water": 0
+  },
+  "2025": {
+   "built-up": 10.8,
+   "vegetation": 0,
+   "open land": 0,
+   "water": 0
+  }
+ },
+ "campus_area_ha_2022": {
+  "0": 82.41,
+  "1": 327.6,
+  "2": 57.34,
+  "3": 0.63
+ }
+}

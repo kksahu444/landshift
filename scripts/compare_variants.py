@@ -68,7 +68,7 @@ DW_BASE = [3, 1, 2, 1, 2, 1, 0, 2]
 
 DRY = {2020: ('2020-03-01', '2020-06-01'), 2025: ('2025-03-01', '2025-06-01')}
 
-def stack(y, texture, dry):
+def stack(y, texture, dry, glcm=None):
     s = composite(*EP[y])
     if texture:
         nd = s.select('NDVI')
@@ -78,12 +78,19 @@ def stack(y, texture, dry):
         d = composite(*DRY[y], cloud_max=20)
         s = s.addBands(d.select(['B4', 'B8', 'B11', 'B12', 'NDVI', 'NDBI', 'NDWI'], ['dB4', 'dB8', 'dB11', 'dB12', 'dNDVI', 'dNDBI', 'dNDWI']))
         s = s.addBands(s.select('NDVI').subtract(s.select('dNDVI')).rename('NDVI_drop'))
+    if glcm:
+        # GLCM needs integer grey levels: B8 0-0.51 and NDVI -1..1 each quantised to 0-255
+        bands, size = glcm
+        grey = {'B8': s.select('B8').multiply(500).clamp(0, 255), 'NDVI': s.select('NDVI').add(1).multiply(127.5)}
+        for b in bands:
+            g = grey[b].toByte().rename(b).glcmTexture(size=size)
+            s = s.addBands(g.select([f'{b}_contrast', f'{b}_ent', f'{b}_idm', f'{b}_corr'], [f'{b}_glcm_contrast', f'{b}_glcm_ent', f'{b}_glcm_idm', f'{b}_glcm_corr']))
     return s
 
-def run(name, cp=(300, 700, 150, 40), texture=False, dry=False, dw_to=DW_BASE):
+def run(name, cp=(300, 700, 150, 40), texture=False, dry=False, dw_to=DW_BASE, glcm=None):
     st, samp = {}, []
     for y in (2020, 2025):
-        st[y] = stack(y, texture, dry)
+        st[y] = stack(y, texture, dry, glcm)
         samp.append(st[y].addBands(dw_ref(*EP[y], dw_to)).stratifiedSample(numPoints=0, classBand='class', classValues=ORDER,
                     classPoints=list(cp), region=aoi, scale=10, seed=42, geometries=True, tileScale=4).randomColumn('r', 42))
     train = samp[0].merge(samp[1]).filter(ee.Filter.lt('r', 0.7))
@@ -93,7 +100,7 @@ def run(name, cp=(300, 700, 150, 40), texture=False, dry=False, dw_to=DW_BASE):
         m = st[y].classify(rf).focalMode(1, 'square', 'pixels')
         for half in (1, 0):
             oa, pa, ua = score(m, y, half)
-            out.append(f'{y}h{half} {oa:.2f} openPA {pa[2]:.2f} builtUA {ua[0]:.2f}')
+            out.append(f'{y}h{half} {oa:.2f} openPA {pa[2]:.2f} builtPA {pa[0]:.2f} builtUA {ua[0]:.2f}')
     print(' | '.join(out), flush=True)
 
 SH = [3, 1, 2, 1, 2, 2, 0, 2]
@@ -108,6 +115,9 @@ V = {
  'E7 open450+shrub': dict(cp=(300, 700, 450, 40), dw_to=SH),
  'E8 open450+dry+shrub': dict(cp=(300, 700, 450, 40), dry=True, dw_to=SH),
  'E9 E5 open600': dict(cp=(300, 700, 600, 40), texture=True, dry=True, dw_to=SH),
+ 'G1 E5+GLCM B8 3x3': dict(cp=(300, 700, 450, 40), texture=True, dry=True, dw_to=SH, glcm=(('B8',), 1)),
+ 'G2 E5+GLCM B8 5x5': dict(cp=(300, 700, 450, 40), texture=True, dry=True, dw_to=SH, glcm=(('B8',), 2)),
+ 'G3 E5+GLCM B8,NDVI 3x3': dict(cp=(300, 700, 450, 40), texture=True, dry=True, dw_to=SH, glcm=(('B8', 'NDVI'), 1)),
 }
 if __name__ == '__main__':
     for k in sys.argv[2:] or V:

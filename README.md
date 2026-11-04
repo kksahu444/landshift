@@ -122,7 +122,7 @@ Raw point counts would let water, 0.2 % of the campus and a third of the points,
 
 | | 2020 | 2025 |
 |---|---|---|
-| Overall accuracy (95 % CI) | 0.68 (0.57-0.78) | 0.77 (0.67-0.87) |
+| Overall accuracy (95 % CI) | 0.67 (0.57-0.78) | 0.77 (0.67-0.87) |
 | User's accuracy (built / veg / open / water) | 0.53 / 0.68 / 0.84 / 0.86 | 0.46 / 0.86 / 0.69 / 0.97 |
 | Producer's accuracy (built / veg / open / water) | 0.53 / 0.92 / 0.41 / 0.12 | 0.65 / 0.92 / 0.33 / 0.86 |
 
@@ -170,9 +170,35 @@ check which parts of the chosen one matter:
 | open land at 450 + shrub | 0.665 | 0.775 |
 | open land at 450 + pre-monsoon + shrub | 0.68 | 0.76 |
 | used, with open land at 600 | 0.675 | 0.795 |
+| used + GLCM on B8, 3×3 | 0.665 | 0.78 |
+| used + GLCM on B8, 5×5 | 0.645 | 0.765 |
+| used + GLCM on B8 and NDVI, 3×3 | 0.67 | 0.77 |
 
 Chosen on the odd half by a rule fixed before the runs (best mean OA there); two variants do a little better on the even half, which is the noise below. Differences under about 0.05 are within the noise of
 90 points, so the honest claim is "better on both halves", not the third decimal.
+
+The three GLCM rows were tried after the choice, to see if grey-level texture (contrast, entropy, homogeneity,
+correlation on 8-bit NIR or NDVI) separates roofs from canopy. It does not: all three score below the used
+variant on the odd half, and built-up producer's accuracy on the 2020 odd points falls from 0.57 to 0.47.
+At 10 m a roof under trees is one or two mixed pixels, too few for a co-occurrence window to see. Not adopted.
+
+The harness draws its training split slightly differently from `run_pipeline.py` (2103 vs 2095 training points),
+so its numbers compare variants with each other; the reported 0.67 / 0.77 come from the pipeline itself.
+
+### Dating the south-east compound
+
+`scripts/date_compound.py` imports the shipped forest from `run_pipeline.py` and classifies one winter composite
+(with its pre-monsoon pair) for every year from 2020 to 2025. The site is the largest cluster of the open land to
+built-up change: 10.8 of the campus's 13.1 ha, inside a 24 ha outline. Share of those pixels mapped built-up:
+
+| Winter | 2019-20 | 2020-21 | 2021-22 | 2022-23 | 2023-24 | 2024-25 |
+|---|---|---|---|---|---|---|
+| Built-up | 0 % | 12 % | 38 % | 76 % | 64 % | 100 % |
+
+The crops (`results/compound_<year>.png`) show a bare patch by early 2020, the whole site bare in 2020-21, roof
+shapes in 2022-23 and a second block to the south-west by 2024-25. The 38 % in 2021-22 is mostly bare soil, which
+has the same SWIR signal as roofs; the dip in 2023-24 is year-to-year noise. The two ends are 0 % and 100 % by
+construction, since the site is defined by the 2020 and 2025 maps.
 
 ## Running it
 
@@ -193,6 +219,7 @@ Python, same pipeline, writes `results/`:
 pip install -r scripts/requirements.txt
 earthengine authenticate
 python scripts/run_pipeline.py <your-cloud-project>
+python scripts/date_compound.py <your-cloud-project>
 python scripts/make_figures.py . docs/img
 ```
 
@@ -206,6 +233,7 @@ picks them up and prints the independent confusion matrices. See `validation/NOT
 |---|---|
 | `results/results.json` | Scene lists, sample counts, confusion matrices, OA, kappa, PA, UA, importance, areas, from-to table |
 | `results/*.png` | True colour composites, class maps, change map |
+| `results/compound_dating.json`, `results/compound_*.png` | Yearly classes and true-colour crops of the south-east compound |
 | `docs/img/` | Figures with titles and legends built from `results/` (README, slides), Code Editor screenshots |
 | `S2_composite_2020.tif`, `S2_composite_2025.tif` | 10-band reflectance composites (Drive export) |
 | `LULC_2020.tif`, `LULC_2025.tif` | Class maps, values 0-3 (Drive export) |
@@ -216,7 +244,7 @@ picks them up and prints the independent confusion matrices. See `validation/NOT
 
 - Open land is still under-mapped (producer's accuracy 0.33-0.41), mostly small lawns and courtyards between buildings.
   Transitions of a few hectares are within error; the results rest on the large, NDVI-checked ones.
-- Change accuracy is not measured. Two maps at 0.68 and 0.77 give a change map below either. Many small magenta patches
+- Change accuracy is not measured. Two maps at 0.67 and 0.77 give a change map below either. Many small magenta patches
   in the north are lawn / canopy edges flipping class, not change.
 - The method was tuned on half of the validation points, so the accuracies above are slightly optimistic;
   the held-out half (0.70 / 0.82) is the fairer check.
@@ -234,6 +262,7 @@ gee/validation_points.js  independent validation points as the Code Editor layer
 scripts/run_pipeline.py   same pipeline through the Python API, writes results/
 scripts/make_figures.py   titled figures from results/ into docs/img/
 scripts/compare_variants.py  the method variants scored on the validation halves
+scripts/date_compound.py  one map per winter 2020-2025 over the south-east compound
 scripts/sample_validation_points.py  draws the validation sample from results/
 scripts/export_validation.py         validation/points.csv -> gee/validation_points.js and the location figure
 validation/strata_ha.json the stratum areas the validation sample was drawn from
@@ -248,6 +277,6 @@ TASKS.md                  who does what before the mid-term
 
 | Member | Roll no. | Contribution so far |
 |---|---|---|
-| Ashutosh Sharma | 23CS10005 | Earth Engine pipeline, from my first drafts (`gee/original/`) to `gee/lulc_pipeline.js`: cloud-masked Sentinel-2 composites, Dynamic World training labels, Random Forest, post-classification change. Diagnosed the first run (224 ha built-up, 139 ha of change) and fixed it: proportional sampling, one forest for both years, crops to open land, 30 m change filter. Python runner that reproduces every Console number. Both epochs run: class maps, areas, from-to table, accuracy. Change checked against NDVI. Area-weighted independent accuracy and area estimates from the validation points (Olofsson / Stehman estimators). Found that the map copied Dynamic World's open-land errors and fixed it (pre-monsoon composite, texture, label and sampling changes), chosen on half the points and checked on the other half: OA 0.61 / 0.74 to 0.68 / 0.77. Figures, this README, the mid-term deck |
+| Ashutosh Sharma | 23CS10005 | Earth Engine pipeline, from my first drafts (`gee/original/`) to `gee/lulc_pipeline.js`: cloud-masked Sentinel-2 composites, Dynamic World training labels, Random Forest, post-classification change. Diagnosed the first run (224 ha built-up, 139 ha of change) and fixed it: proportional sampling, one forest for both years, crops to open land, 30 m change filter. Python runner that reproduces every Console number. Both epochs run: class maps, areas, from-to table, accuracy. Change checked against NDVI. Area-weighted independent accuracy and area estimates from the validation points (Olofsson / Stehman estimators). Found that the map copied Dynamic World's open-land errors and fixed it (pre-monsoon composite, texture, label and sampling changes), chosen on half the points and checked on the other half: OA 0.61 / 0.74 to 0.67 / 0.77. GLCM texture test (not adopted); yearly composites dating the south-east compound. Figures, this README, the mid-term deck |
 | Krishnkant Sahu | 23CS10035 | Independent validation set: 365 points (181 for 2020, 184 for 2025, at least 25 per class per year), a stratified random sample on the map classes labelled on dated high-resolution imagery (WorldView-2, 15 Mar 2020; WorldView-3, 13 Jan 2024) after correcting its offset to Sentinel-2 (`gee/validation_points.js`, `validation/points.csv`). Labelling notes: imagery dates, rules, hard cases (south-east compound, shadows of the new buildings, algae-covered ponds, dark roofs) and a first look at the map errors (`validation/NOTES.md`). Sampling and export scripts, location figure |
 | Sanskar Sovitkar | 24CS10131 | |
