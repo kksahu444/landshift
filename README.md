@@ -85,14 +85,16 @@ All numbers come from `results/results.json`, written by `scripts/run_pipeline.p
 
 ### Area by class (ha)
 
-| Class | 2020 | 2025 | Difference |
+| Class | 2020 | 2025 | Map difference |
 |---|---|---|---|
 | Built-up | 93.4 | 88.6 | -4.8 |
 | Vegetation | 270.7 | 327.5 | +56.8 |
 | Open land | 103.1 | 51.1 | -52.0 |
 | Water | 0.7 | 0.7 | 0.0 |
 
-These are map areas. The independent points give area estimates that correct for the map's errors (next section);
+These are map areas. Their difference is not the net change: it also counts the one-pixel ring around roofs that
+the 30 m change filter drops. Net change from the from-to table below is built-up +4.6 (19.0 gained, 14.5 lost),
+vegetation +42.2 and open land -46.8 ha. The independent points give area estimates that correct for the map's errors (next section);
 quote those for class totals. The classes add up to 468.0 ha against the 469.2 ha polygon; the rest is boundary pixels whose centre falls outside it.
 
 ### Change, 2020 to 2025 (ha)

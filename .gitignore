@@ -1,2 +1,10 @@
 __pycache__/
 .venv/
+.DS_Store
+slides/*.aux
+slides/*.log
+slides/*.nav
+slides/*.out
+slides/*.snm
+slides/*.toc
+slides/main.pdf
