@@ -1,0 +1,531 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+\geometry{paperwidth=19.2cm,paperheight=10.8cm}
+\usepackage{fontspec}
+\usepackage{booktabs}
+\usepackage{etoolbox}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,shapes.geometric,calc,fit,backgrounds}
+
+\definecolor{bg}{HTML}{F5F6F1}
+\definecolor{ink}{HTML}{1E3A2F}
+\definecolor{green}{HTML}{3F7A64}
+\definecolor{terra}{HTML}{B8674A}
+\definecolor{mint}{HTML}{E4EEE6}
+\definecolor{muted}{HTML}{6B7F75}
+\definecolor{rule}{HTML}{D3DDD6}
+\definecolor{cbuilt}{HTML}{D7302A}
+\definecolor{cveg}{HTML}{1A9850}
+\definecolor{copen}{HTML}{E2CF7A}
+\definecolor{cwater}{HTML}{3B7DB8}
+
+\setbeamercolor{background canvas}{bg=white}
+\setbeamercolor{normal text}{fg=ink}
+\setbeamercolor{structure}{fg=green}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\textcolor{terra}{\rule[.25ex]{.9ex}{.9ex}}}
+\setbeamercolor{frametitle}{fg=white,bg=ink}
+\setbeamercolor{footline}{fg=white,bg=green}
+\setbeamertemplate{frametitle}{%
+  \nointerlineskip
+  \begin{beamercolorbox}[wd=\paperwidth,ht=7.5mm,dp=3mm,leftskip=6mm]{frametitle}%
+    \large\bfseries\insertframetitle
+  \end{beamercolorbox}\vspace{2.5mm}}
+\setbeamertemplate{footline}{%
+  \begin{beamercolorbox}[wd=\paperwidth,ht=3.2mm,dp=1.6mm,leftskip=6mm,rightskip=6mm]{footline}%
+    \scriptsize CS60111 GIS Term Project \quad Group 8 \quad LULC change, IIT Kharagpur 2020-2025\hfill\insertframenumber\,/\,\inserttotalframenumber
+  \end{beamercolorbox}}
+\setbeamersize{text margin left=6mm,text margin right=6mm}
+
+\tikzset{
+  card/.style={rounded corners=3pt,fill=mint,draw=rule,line width=.4pt,align=left},
+  step/.style={rounded corners=3pt,fill=white,draw=rule,line width=.5pt,align=left,
+    text width=#1,inner sep=4pt,font=\scriptsize},
+  step/.default=2.55cm,
+  flowarrow/.style={-{Stealth[length=2.2mm]},line width=.9pt,green},
+  num/.style={circle,fill=terra,text=white,font=\scriptsize\bfseries,inner sep=1.5pt,minimum size=4.5mm},
+}
+\newcommand{\bignum}[1]{{\color{terra}\fontsize{22}{24}\selectfont #1}}
+\newcommand{\capt}[1]{{\color{green}\scriptsize\bfseries #1}}
+\newcommand{\sw}[1]{\tikz[baseline=-.6ex]\fill[#1] (0,0) circle (2.2pt);}
+\newcommand{\classlegend}{\small\sw{cbuilt}\,Built-up\quad\sw{cveg}\,Vegetation\quad\sw{copen}\,Open land\quad\sw{cwater}\,Water}
+
+\AtBeginDocument{\hyphenpenalty=10000 \exhyphenpenalty=10000}
+\makeatletter
+\newcommand{\ra}{\ifdefequal{\f@series}{\bfdefault}{{\boldmath$\rightarrow$}}{$\rightarrow$}}
+\makeatother
+\begin{document}
+
+% ---------------------------------------------------------------- title
+{\setbeamertemplate{footline}{}
+\begin{frame}[plain]
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[ink] (current page.north west) rectangle ([xshift=6.9cm]current page.south west);
+  \node[anchor=north west,text width=6.1cm,text=white,align=left] at ([xshift=5mm,yshift=-9mm]current page.north west) {%
+    {\color{copen}\fontsize{6.5}{8}\selectfont CS60111 GIS \textperiodcentered\ TERM PROJECT \textperiodcentered\ GROUP 8}\\[5mm]
+    {\fontsize{17}{21}\selectfont\bfseries Land Use / Land Cover\\Mapping and\\Change Detection}\\[4mm]
+    {\small IIT Kharagpur campus, 2020 vs 2025, from multi-temporal Sentinel-2}\\[9mm]
+    {\footnotesize Ashutosh Sharma \quad 23CS10005\\Krishnkant Sahu \quad 23CS10035\\Sanskar Sovitkar \quad 24CS10131}\\[7mm]
+    {\color{copen}\scriptsize Term project evaluation, Nov 2026}};
+  \node[anchor=center] (tmap) at ([xshift=12.9cm,yshift=.3cm]current page.west) {\includegraphics[width=11.6cm]{img/lulc_2025.png}};
+  \node[anchor=north] at (tmap.south) {\classlegend};
+  \node[anchor=north,text=muted,font=\scriptsize] at ([xshift=12.9cm,yshift=-9mm]current page.north west) {2025 land cover map, Random Forest, 10 m};
+\end{tikzpicture}
+\end{frame}}
+
+% ---------------------------------------------------------------- question
+\begin{frame}{Can we measure how our own campus changed?}{BACKGROUND AND OBJECTIVES}
+\begin{tikzpicture}
+  \node[card,text width=8.4cm,inner sep=8pt,anchor=north west] (q) at (0,0) {%
+    {\color{muted}\scriptsize RESEARCH QUESTION}\\[1mm]
+    {\large\bfseries How much of the 469 ha campus changed land cover between the 2019-20 and 2024-25 dry seasons, and from what to what?}};
+  \node[anchor=north west,text width=8.4cm,font=\footnotesize,below=4mm of q.south west,anchor=north west] (why) {%
+    \textbf{Why a campus?} Global products (Dynamic World, ESA WorldCover) map at 10 m but are tuned for regions. A 469 ha site tests whether they hold at the scale where planners actually decide: one construction compound, one lawn, one pond.};
+  \foreach \i/\t/\s in {1/Map 4 classes at 2 dates/Sentinel-2{,} one Random Forest,2/From-to change table in ha/30 m minimum change width,3/Accuracy against independent points/WorldView-2 and -3{,} area-weighted,4/Reproducible pipeline/one Earth Engine script{,} one Python runner}{
+    \node[num] (n\i) at (10.1,-.35-1.3*\i+1.3) {0\i};
+    \node[anchor=west,text width=6.6cm,align=left] at ($(n\i.east)+(.2,0)$) {\footnotesize\bfseries\t\\[-.3mm]\capt{\s}};
+  }
+  \draw[green,line width=.8pt] (n1) -- (n2) -- (n3) -- (n4);
+\end{tikzpicture}
+\vfill
+\begin{tikzpicture}
+  \node[fill=ink,text=white,rounded corners=3pt,text width=17.2cm,inner sep=6pt,font=\scriptsize] {%
+    \textbf{\color{copen}New in this version:} is the change real? error-adjusted significance test \textperiodcentered\ change flow diagram \textperiodcentered\ gross gain, loss and swap per class \textperiodcentered\ map area vs point-based area with 95\% CI \textperiodcentered\ model tuning log with a held-out half \textperiodcentered\ feature importance \textperiodcentered\ WorldView validation design};
+\end{tikzpicture}
+\end{frame}
+
+% ---------------------------------------------------------------- study area
+\begin{frame}{A 469 ha fenced campus, mapped at 10 m}{STUDY AREA}
+\begin{columns}[T]
+\begin{column}{.6\textwidth}
+  \includegraphics[width=\linewidth]{img/study_area-04.png}\\[-.5mm]
+  \capt{Campus boundary: OpenStreetMap way 52435606 (184 vertices). Imagery: Google Earth, Airbus.}
+\end{column}
+\begin{column}{.36\textwidth}
+\begin{tikzpicture}
+  \foreach \v/\l [count=\i] in {469.2 ha/MAIN FENCED CAMPUS,10 m/SENTINEL-2 PIXEL SIZE,45QWE/ONE TILE COVERS ALL OF IT,UTM 45N/EPSG:32645}{
+    \node[anchor=west] at (0,-1.18*\i) {\bignum{\v}};
+    \node[anchor=west] at (0,-1.18*\i-.46) {\capt{\l}};
+    \draw[rule] (0,-1.18*\i-.72) -- (5.2,-1.18*\i-.72);
+  }
+\end{tikzpicture}\\[2mm]
+{\scriptsize Halls and quarters outside the fence are not in the study area.}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ---------------------------------------------------------------- pipeline
+\begin{frame}{From 51 satellite scenes to a from-to change table}{METHOD \textperiodcentered\ END-TO-END PIPELINE}
+\centering
+\begin{tikzpicture}[node distance=5mm,step/.append style={text width=3.05cm}]
+  \foreach \y/\c/\t in {0/green/DATA,-2.05/terra/MODEL,-4.1/ink/CHANGE}{
+    \fill[\c!8!bg,rounded corners=4pt] (-1.25,\y+.88) rectangle (16.6,\y-.88);
+    \node[rotate=90,font=\tiny\bfseries,text=\c] at (-.98,\y) {\t};
+  }
+  \node[step] (s1) at (1.25,0) {\textbf{Sentinel-2 L2A}\\51 scenes, 2 seasons, 2 years};
+  \node[step,right=of s1] (s2) {\textbf{Cloud mask}\\SCL band; campus cloud $<$10\% / 20\%};
+  \node[step,right=of s2] (s3) {\textbf{Seasonal medians}\\winter Nov-Feb + pre-monsoon Mar-May};
+  \node[step,right=of s3] (s4) {\textbf{23 features / pixel}\\bands, NDVI, NDBI, NDWI, texture, NDVI drop};
+  \node[step] (m1) at (1.25,-2.05) {\textbf{Dynamic World V1}\\mode label, $\ge$60\% scene agreement};
+  \node[step,right=of m1] (m2) {\textbf{Remap 9 \ra{} 4}\\crops and shrub become open land};
+  \node[step,right=of m2,fill=terra!12] (m3) {\textbf{One Random Forest}\\100 trees, pooled 2020 + 2025, 2095 samples};
+  \node[step,right=of m3] (m4) {\textbf{Classify both years}\\then 3$\times$3 majority filter};
+  \node[step] (c1) at (1.25,-4.1) {\textbf{Transition code}\\$10\times c_{2020} + c_{2025}$};
+  \node[step,right=of c1] (c2) {\textbf{30 m width filter}\\drops 1-pixel edge shifts};
+  \node[step,right=of c2,fill=ink,text=white,draw=ink] (c3) {\textbf{Outputs}\\maps, class areas, from-to table};
+  \node[step,right=of c3,fill=terra!12] (v1) {\textbf{Validation}\\365 WorldView points, area-weighted};
+  \foreach \a/\b in {s1/s2,s2/s3,s3/s4,m1/m2,m2/m3,m3/m4,c1/c2,c2/c3}{\draw[flowarrow] (\a) -- (\b);}
+  \draw[flowarrow] (v1) -- (c3);
+  \draw[flowarrow] (s4.south) -- ++(0,-.3) -| ($(m3.north)+(.3,0)$);
+  \draw[flowarrow] (m4.south) -- ++(0,-.3) -| (c1.north);
+\end{tikzpicture}\\[3mm]
+\begin{tikzpicture}
+  \node[fill=ink,text=white,rounded corners=3pt,text width=17cm,inner sep=5pt,font=\scriptsize,align=center] {%
+    One forest for both years, so an unchanged pixel gets the same rules in 2020 and 2025. Separate forests disagreed on 91 ha of unchanged roofs.};
+\end{tikzpicture}
+\end{frame}
+
+% ---------------------------------------------------------------- data
+\begin{frame}{Same seasons in both years, so seasonal greening is not counted as change}{DATA}
+\begin{columns}[T]
+\begin{column}{.49\textwidth}\centering
+  \includegraphics[width=\linewidth]{img/true_colour_2020.png}\\\capt{Winter 2019-20 median composite, 11 scenes}
+\end{column}
+\begin{column}{.49\textwidth}\centering
+  \includegraphics[width=\linewidth]{img/true_colour_2025.png}\\\capt{Winter 2024-25 median composite, 16 scenes}
+\end{column}
+\end{columns}
+\vspace{3mm}
+\begin{tikzpicture}
+  \begin{scope}[xshift=1.5cm]\input{charts/timeline}\end{scope}
+  \node[anchor=west,text width=2.4cm,font=\scriptsize] at (12.75,.6) {Every dot is one scene that passed the campus cloud test. By April lawns dry out but tree canopy stays green, so the pre-monsoon season helps split them.};
+\end{tikzpicture}
+\end{frame}
+
+% ---------------------------------------------------------------- classes
+\begin{frame}{Nine Dynamic World labels collapse into four campus classes}{CLASSES}
+\begin{columns}[c]
+\begin{column}{.5\textwidth}
+\begin{tikzpicture}[lab/.style={font=\scriptsize,fill=white,draw=rule,rounded corners=2pt,minimum width=2.5cm,minimum height=4.6mm},
+  cls/.style={font=\scriptsize\bfseries,rounded corners=3pt,minimum width=2.3cm,minimum height=7mm,text=white}]
+  \foreach \t [count=\i] in {built,trees,flooded vegetation,grass,crops,shrub and scrub,bare,water}{\node[lab] (d\i) at (0,-.56*\i) {\t};}
+  \node[cls,fill=cbuilt] (B) at (4.4,-.56) {Built-up};
+  \node[cls,fill=cveg] (V) at (4.4,-1.4) {Vegetation};
+  \node[cls,fill=copen,text=ink] (O) at (4.4,-3.06) {Open land};
+  \node[cls,fill=cwater] (W) at (4.4,-4.48) {Water};
+  \foreach \i/\c in {1/B,2/V,3/V,4/O,6/O,7/O,8/W}{\draw[-{Stealth},muted,line width=.6pt] (d\i.east) to[out=0,in=180] (\c.west);}
+  \draw[-{Stealth},terra,line width=1.6pt] (d5.east) to[out=0,in=180] (O.west);
+  \node[font=\tiny,text=muted] at (0,-.02) {DYNAMIC WORLD V1};
+  \node[font=\tiny,text=muted] at (4.4,-.02) {THIS PROJECT};
+  \node[text width=6.2cm,font=\scriptsize,anchor=north west,fill=terra!10,rounded corners=2pt,inner sep=4pt] at (-1.3,-5.0) {\textbf{\color{terra}The crops rule.} Dynamic World calls about 50 ha of campus lawns \emph{crops}. There is no farmland inside the fence, so crops become open land. Calling them vegetation would hide open-to-built conversions.};
+\end{tikzpicture}
+\end{column}
+\begin{column}{.46\textwidth}
+\begin{tikzpicture}
+  \foreach \i/\n/\c/\d in {0/Built-up/cbuilt/roofs{,} roads{,} courts,1/Vegetation/cveg/canopy{,} dense woody,2/Open land/copen/lawns{,} fields{,} bare plots,3/Water/cwater/ponds{,} tanks}{
+    \pgfmathsetmacro\x{mod(\i,2)*3.4}
+    \pgfmathsetmacro\y{-int(\i/2)*3.6}
+    \node[anchor=north west,inner sep=0] (im\i) at (\x,\y) {\includegraphics[width=2.75cm]{img/chip\i-07.png}};
+    \fill[\c] (im\i.south west) rectangle ([yshift=-1.2mm]im\i.south east);
+    \node[anchor=north west,font=\scriptsize\bfseries,inner sep=1pt] at ([yshift=-1.6mm]im\i.south west) {\n};
+    \node[anchor=north west,font=\tiny,text=muted,inner sep=1pt] at ([yshift=-5.2mm]im\i.south west) {\d};
+  }
+\end{tikzpicture}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ---------------------------------------------------------------- features
+\begin{frame}{23 features per pixel; the seasonal and texture ones earn their place}{FEATURES AND FEATURE IMPORTANCE}
+\begin{columns}[T]
+\begin{column}{.47\textwidth}
+\begin{tikzpicture}
+  \foreach \n/\w/\l/\c [count=\i] in {10/2.6/winter bands B2-B8A{,} B11{,} B12/muted,3/1.1/winter NDVI{,} NDBI{,} NDWI/muted,2/.9/texture: 3$\times$3 std of NDVI{,} B8/green,7/1.9/pre-monsoon: 4 bands{,} 3 indices/terra,1/.6/NDVI drop{,} winter minus pre-monsoon/terra}{
+    \node[fill=\c,text=white,font=\scriptsize\bfseries,minimum width=\w cm,minimum height=6mm,rounded corners=2pt,anchor=west] (b\i) at (0,-.82*\i) {\n};
+    \node[anchor=west,font=\scriptsize] at ($(b\i.east)+(.12,0)$) {\l};
+  }
+  \node[anchor=west,font=\scriptsize\bfseries] at (0,-5.0) {= 23 features};
+  \node[card,anchor=north west,text width=6.3cm,inner sep=5pt,font=\scriptsize] at (0,-5.45) {%
+    $\mathrm{NDVI}=\frac{B8-B4}{B8+B4}$\\[1mm] $\mathrm{NDBI}=\frac{B11-B8}{B11+B8}$\\[1mm] $\mathrm{NDWI}=\frac{B3-B8}{B3+B8}$\\[1mm]
+    Greenness, built-up and water, each separating a pair of classes that look alike in raw bands.};
+\end{tikzpicture}
+\end{column}
+\begin{column}{.5\textwidth}
+\capt{RANDOM FOREST IMPORTANCE, TOP 10 OF 23 (GINI, EARTH ENGINE)}\\[2mm]
+\begin{tikzpicture}\input{charts/importance}\end{tikzpicture}\\[2mm]
+{\scriptsize\sw{terra} pre-monsoon \quad \sw{green} texture \quad \sw{muted} winter}\\[2mm]
+\begin{tikzpicture}
+  \node[fill=ink,text=white,rounded corners=3pt,text width=6.9cm,inner sep=5pt,font=\scriptsize] {The \textbf{top feature is pre-monsoon SWIR (B12)}, and \textbf{5 of the top 10} are seasonal or texture features added in the last fix. Short-wave infrared is bright on roofs and dry soil, dark on moist leaves.};
+\end{tikzpicture}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ---------------------------------------------------------------- tuning
+\begin{frame}{Tuning the model: three runs, each fix aimed at one measured error}{MODEL TUNING LOG}
+\begin{tikzpicture}[run/.style={card,text width=5.1cm,inner sep=6pt,font=\scriptsize,anchor=north west,minimum height=3.4cm}]
+  \node[run] (r1) at (0,0) {%
+    {\color{terra}\bfseries RUN 1}\\[.5mm]{\small\bfseries Baseline}\\[1mm]
+    Equal samples per class, one forest per year.\\[1mm]
+    \textbf{Errors:} built-up 224 ha (Dynamic World says $\approx$110); 91 ha built \ra{} vegetation on unchanged roofs; zero open-land samples in 2020.};
+  \node[run] (r2) at (6.0,0) {%
+    {\color{terra}\bfseries RUN 2}\\[.5mm]{\small\bfseries Fix the sampling}\\[1mm]
+    Samples near real class shares (300 / 700 / 450 / 40); \textbf{one forest pooled over both years}; crops \ra{} open land; 30 m change filter.\\[1mm]
+    \textbf{Left over:} open land only 32 ha; points say about 146.};
+  \node[run,fill=terra!12] (r3) at (12.0,0) {%
+    {\color{terra}\bfseries RUN 3 (FINAL)}\\[.5mm]{\small\bfseries Fix open land}\\[1mm]
+    Add pre-monsoon composite, 3$\times$3 texture, shrub \ra{} open land, 450 open samples.\\[1mm]
+    \textbf{Result:} open land 2020 at 103 ha; OA 0.61 \ra{} 0.67 (2020), 0.74 \ra{} 0.77 (2025).};
+  \draw[flowarrow] (r1.east) -- (r2.west);
+  \draw[flowarrow] (r2.east) -- (r3.west);
+  % changed area bars
+  \begin{scope}[yshift=-4.5cm]
+    \node[anchor=west,inner sep=0] at (0,.15) {\capt{CHANGED AREA REPORTED (HA)}};
+    \foreach \v/\l/\c [count=\i] in {139/Run 1/muted!60,48.6/Run 2/muted!60,71.4/Run 3/terra}{
+      \fill[\c] (1.0,-.42*\i) rectangle (1.0+\v*.03,-.42*\i+.3);
+      \node[anchor=west,font=\scriptsize,inner sep=0] at (0,-.42*\i+.15) {\l};
+      \node[anchor=west,font=\scriptsize\bfseries] at (1.0+\v*.03+.05,-.42*\i+.15) {\v};
+    }
+  \end{scope}
+  \node[anchor=north west,text width=10.9cm,font=\scriptsize,fill=white,draw=rule,rounded corners=3pt,inner sep=6pt] at (6.0,-4.25) {%
+    {\color{green}\bfseries Held-out check, so tuning does not overfit the points.} Each change was chosen on the odd-numbered validation points and scored on the even-numbered half it never saw:\\[1mm]
+    \textbf{2020} \; 0.65 \ra{} \textbf{0.685} \qquad \textbf{2025} \; 0.70 \ra{} \textbf{0.76}\\[1mm]
+    Run 2 to 3 raises change from 48.6 to 71.4 ha because more open land is now mapped, so more of it can be seen turning green.};
+\end{tikzpicture}
+\end{frame}
+
+% ---------------------------------------------------------------- maps
+\begin{frame}{Vegetation grew and open land shrank in five years}{RESULT \textperiodcentered\ LAND COVER MAPS}
+\begin{columns}[T]
+\begin{column}{.49\textwidth}\centering
+  \colorbox{white}{\scriptsize\bfseries 2020}\\[1mm]\includegraphics[width=\linewidth]{img/lulc_2020.png}
+\end{column}
+\begin{column}{.49\textwidth}\centering
+  \colorbox{white}{\scriptsize\bfseries 2025}\\[1mm]\includegraphics[width=\linewidth]{img/lulc_2025.png}
+\end{column}
+\end{columns}
+\vspace{2mm}\centering\classlegend\\[3mm]
+\begin{tikzpicture}
+  \node[card,text width=14.2cm,inner sep=6pt,font=\footnotesize] {Open land (tan) in the east and south-east turns green or red. Same forest, same 23 features, both years, so the difference is the ground, not the model.};
+\end{tikzpicture}
+\end{frame}
+
+% ---------------------------------------------------------------- area
+\begin{frame}{Vegetation +42.2 ha, open land $-$46.8 ha; the points agree on direction}{RESULT \textperiodcentered\ AREA BY CLASS, TWO ESTIMATES}
+\begin{columns}[c]
+\begin{column}{.66\textwidth}
+\begin{tikzpicture}\input{charts/area_bars}\end{tikzpicture}\\[1mm]
+{\scriptsize\tikz\fill[muted!50] (0,0) rectangle (.3,.2);\ 2020 map \quad \tikz\fill[muted] (0,0) rectangle (.3,.2);\ 2025 map \quad \tikz[baseline=-.6ex]{\draw[ink,line width=.9pt] (0,-.16)--(0,.16);\node[diamond,fill=terra,inner sep=1.4pt] at (0,0) {};}\ point-based estimate, 95\% CI}
+\end{column}
+\begin{column}{.32\textwidth}
+\begin{tikzpicture}
+  \foreach \n/\c/\a/\b/\d [count=\i] in {Vegetation/cveg/48.9/6.7/+42.2,Open land/copen/3.4/50.2/$-$46.8,Built-up/cbuilt/19.0/14.5/+4.6}{
+    \node[card,text width=4.4cm,minimum height=1.25cm,anchor=north west] (k\i) at (0,-1.42*\i) {};
+    \node[anchor=north west,font=\scriptsize] at ([xshift=2mm,yshift=-1.5mm]k\i.north west) {\sw{\c}\,\n};
+    \node[anchor=south west,font=\tiny,text=muted] at ([xshift=2mm,yshift=1.5mm]k\i.south west) {gained \a, lost \b\ ha};
+    \node[anchor=east] at ([xshift=-2mm]k\i.east) {{\color{terra}\fontsize{15}{17}\selectfont\d}};
+  }
+\end{tikzpicture}\\[2mm]
+{\scriptsize Cards: net after the 30 m filter. Bars also count the roof-edge ring it drops (9.4 ha of built-up).}\\[1mm]
+{\scriptsize\textbf{Map vs points.} Pixel counting under-counts open land by about 45 ha in both years. The point estimate (Olofsson et al. 2014) corrects for known errors; only vegetation's intervals do not overlap (169-272 vs 273-356 ha).}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ---------------------------------------------------------------- change map
+\begin{frame}{15.2\% of the campus changed land cover in five years}{KEY FINDING}
+\begin{columns}[c]
+\begin{column}{.58\textwidth}
+  \includegraphics[width=\linewidth]{img/change_2020_2025.png}\\
+  \capt{Magenta: changed patches at least 30 m wide, over the 2025 image}
+\end{column}
+\begin{column}{.38\textwidth}
+\begin{tikzpicture}
+  \fill[rule] (0,0) circle (1.55);
+  \fill[terra] (0,0) -- (90:1.55) arc[start angle=90,end angle={90-0.152*360},radius=1.55] -- cycle;
+  \fill[bg] (0,0) circle (1.08);
+  \node[align=center] at (0,0) {{\color{terra}\fontsize{20}{22}\selectfont\bfseries 15.2\%}\\[-.5mm]\capt{OF 469.2 HA}};
+  \node[anchor=west,align=left] at (1.85,.45) {\bignum{71.4 ha}};
+  \node[anchor=west,align=left] at (1.85,-.2) {\capt{CHANGED}};
+  \node[anchor=west,align=left] at (1.85,-.6) {\capt{$\approx$14 ha / year}};
+\end{tikzpicture}\\[4mm]
+{\scriptsize Before the 30 m width filter the change map holds 103.3 ha. The 31.9 ha it removes is mostly a one-pixel ring around every roof, where the two composites shift by a pixel.}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ---------------------------------------------------------------- sankey
+\begin{frame}{Where the change went: open land feeds both vegetation and building}{CHANGE FLOW, 2020 \ra{} 2025}
+\begin{columns}[c]
+\begin{column}{.68\textwidth}\centering
+\begin{tikzpicture}\begin{scope}[xshift=1.2cm]\input{charts/sankey}\end{scope}\end{tikzpicture}\\
+\capt{Band width = hectares. Faint bands stayed the same class; strong bands changed. From-to table after the 30 m filter.}
+\end{column}
+\begin{column}{.3\textwidth}
+\begin{tikzpicture}
+  \foreach \v/\t/\s [count=\i] in {37.1 ha/Open \ra{} vegetation/east-end grassland growing into scrub,13.1 ha/Open \ra{} built-up/south-east construction compound,11.8 ha/Built-up \ra{} vegetation/mostly canopy closing over roofs,5.9 ha/Vegetation \ra{} built-up/new blocks in the south}{
+    \node[anchor=west] at (0,-1.2*\i) {{\color{terra}\fontsize{14}{16}\selectfont\v}};
+    \node[anchor=west,font=\scriptsize\bfseries] at (0,-1.2*\i-.42) {\t};
+    \node[anchor=west] at (0,-1.2*\i-.72) {\capt{\s}};
+  }
+\end{tikzpicture}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ---------------------------------------------------------------- gain loss swap
+\begin{frame}{Net change hides most of the built-up story}{NEW ANGLE \textperiodcentered\ GROSS GAIN, LOSS AND SWAP}
+\begin{columns}[c]
+\begin{column}{.62\textwidth}\centering
+\resizebox{\linewidth}{!}{\begin{tikzpicture}\input{charts/gain_loss}\end{tikzpicture}}\\[3mm]
+\capt{Hectares from the from-to table. Swap = 2 $\times$ min(gain, loss): area that changed place without changing the class total (Pontius et al. 2004).}
+\end{column}
+\begin{column}{.35\textwidth}
+\begin{tikzpicture}
+  \node[card,text width=5.1cm,inner sep=6pt,font=\scriptsize] (a) {%
+    {\color{terra}\bfseries Built-up looks stable.} Net change is under 5 ha, yet 33.5 ha of built-up pixels changed: 19.0 ha gained, 14.5 ha lost. \textbf{Most of its change is swap.}};
+  \node[card,text width=5.1cm,inner sep=6pt,font=\scriptsize,below=3mm of a] (b) {%
+    {\color{green}\bfseries Vegetation and open land are one-way.} Vegetation gains 48.9 and loses 6.7; open land loses 50.2 and gains 3.4. This is real, directional conversion.};
+  \node[text width=5.1cm,inner sep=2pt,font=\scriptsize,below=3mm of b,text=muted] {Caveat: part of built-up loss is canopy closing over roofs, so some of the swap is the 10 m pixel, not new ground.};
+\end{tikzpicture}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ---------------------------------------------------------------- worldview validation
+\begin{frame}{Validation labels come from WorldView, 20 times sharper than Sentinel-2}{ACCURACY ASSESSMENT DESIGN}
+\begin{columns}[T]
+\begin{column}{.3\textwidth}
+\begin{tikzpicture}
+  \fill[cveg!25] (0,0) rectangle (3.2,3.2);
+  \draw[step=.16,rule,line width=.15pt] (0,0) grid (3.2,3.2);
+  \draw[ink,line width=1.2pt] (0,0) rectangle (3.2,3.2);
+  \fill[cbuilt!70] (.32,1.76) rectangle (1.44,2.88);
+  \fill[copen] (1.76,.32) rectangle (2.88,1.12);
+  \node[font=\tiny,anchor=north] at (1.6,-.08) {one Sentinel-2 pixel = 10 m};
+  \node[font=\tiny,anchor=north,text=muted] at (1.6,-.38) {grid: 0.5 m, WorldView pan scale};
+  \node[font=\scriptsize\bfseries,text=terra] at (1.6,3.45) {$\approx$400 WorldView pixels};
+\end{tikzpicture}\\[3mm]
+{\scriptsize A 10 m pixel that mixes a roof and a lawn is one label to the classifier but readable by eye on WorldView.}
+\end{column}
+\begin{column}{.67\textwidth}
+\begin{tikzpicture}[node distance=3mm]
+  \node[step=2.05cm] (v1) {\textbf{Stratify}\\by map class, 25+ points per class per year};
+  \node[step=2.05cm,right=of v1] (v2) {\textbf{Label by eye}\\WorldView-2 (15 Mar 2020), WorldView-3 (13 Jan 2024)};
+  \node[step=2.05cm,right=of v2] (v3) {\textbf{Offset-correct}\\to the Sentinel-2 grid};
+  \node[step=2.05cm,right=of v3,fill=terra!12] (v4) {\textbf{Area-weight}\\OA, user's, producer's, area $\pm$ 95\% CI};
+  \foreach \a/\b in {v1/v2,v2/v3,v3/v4}{\draw[flowarrow] (\a) -- (\b);}
+\end{tikzpicture}\\[3mm]
+\includegraphics[width=\linewidth]{img/08_validation_points.png}\\
+\capt{365 points: 181 for 2020, 184 for 2025, labelled by Krishnkant Sahu. Independent of Dynamic World, unlike the 883 held-out training pixels.}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ---------------------------------------------------------------- accuracy
+\begin{frame}{Accuracy is 0.67 in 2020 and 0.77 in 2025, with wide intervals}{ACCURACY}
+\begin{columns}[c]
+\begin{column}{.38\textwidth}
+\begin{tikzpicture}
+  \foreach \y/\oa/\lo/\hi/\yr in {0/0.67/0.57/0.78/2020,-1.9/0.77/0.67/0.87/2025}{
+    \node[anchor=west] at (0,\y+.35) {\capt{OVERALL ACCURACY \yr}};
+    \node[anchor=west] at (0,\y-.25) {{\color{terra}\fontsize{26}{28}\selectfont\bfseries\oa}};
+    \fill[rule] (2.2,\y-.3) rectangle (5.2,\y-.18);
+    \fill[terra!60] (2.2+3*\lo,\y-.3) rectangle (2.2+3*\hi,\y-.18);
+    \draw[ink,line width=1.4pt] (2.2+3*\oa,\y-.4) -- (2.2+3*\oa,\y-.08);
+    \node[font=\tiny,text=muted,anchor=north] at (3.7,\y-.42) {95\% CI \lo\ to \hi};
+  }
+\end{tikzpicture}\\[3mm]
+{\scriptsize Against Dynamic World's own held-out pixels the map scores 0.82 / 0.88 (kappa 0.73 / 0.81), but that only measures agreement with the training source.}
+\end{column}
+\begin{column}{.6\textwidth}
+\capt{USER'S AND PRODUCER'S ACCURACY, AREA-WEIGHTED} \quad {\scriptsize\tikz\draw[ink,fill=white] (0,0) circle (2.4pt);\ 2020 \quad \tikz\fill[ink] (0,0) circle (2.4pt);\ 2025}\\[3mm]
+\begin{tikzpicture}\begin{scope}[xshift=3cm]\input{charts/dumbbell}\end{scope}\end{tikzpicture}\\[3mm]
+\begin{tikzpicture}
+  \node[fill=terra!10,rounded corners=3pt,text width=8.6cm,inner sep=5pt,font=\scriptsize] {\textbf{\color{terra}Open land is the weak class:} producer's 0.41 and 0.33, so about 45 ha of real open land is mapped as built-up or vegetation. Vegetation is found 92\% of the time in both years.};
+\end{tikzpicture}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ---------------------------------------------------------------- confusion
+\begin{frame}{Where the map goes wrong: open land read as built-up}{CONFUSION MATRICES, INDEPENDENT POINTS}
+\begin{columns}[c]
+\begin{column}{.62\textwidth}\centering
+\resizebox{\linewidth}{!}{\begin{tikzpicture}
+  \begin{scope}[xshift=.9cm]\input{charts/confusion_2020}\end{scope}
+  \begin{scope}[xshift=6.4cm]\input{charts/confusion_2025}\end{scope}
+\end{tikzpicture}}\\[2mm]
+\capt{Rows: WorldView reference. Columns: map. Shade: share of the row. Green diagonal is correct; terracotta is error.}
+\end{column}
+\begin{column}{.36\textwidth}
+\begin{tikzpicture}
+  \node[card,text width=5.2cm,inner sep=6pt,font=\scriptsize] (a) {{\color{terra}\bfseries Open \ra{} built-up}\\13 of 60 points in 2020, 21 of 59 in 2025. Bare plots and dry courts share the SWIR signal of roofs.};
+  \node[card,text width=5.2cm,inner sep=6pt,font=\scriptsize,below=3mm of a] (b) {{\color{terra}\bfseries Water \ra{} built-up or vegetation}\\18 of 43 water points in 2020 sit on pond edges, where a 10 m pixel is half bank.};
+  \node[card,text width=5.2cm,inner sep=6pt,font=\scriptsize,below=3mm of b] {{\color{green}\bfseries Vegetation holds}\\52 of 58 in 2025. The forest is strongest on the class that dominates the campus.};
+\end{tikzpicture}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ---------------------------------------------------------------- significance (new)
+\begin{frame}{Only the vegetation gain is bigger than our map error}{NEW ANALYSIS: IS THE CHANGE STATISTICALLY REAL?}
+\centering
+\capt{ERROR-ADJUSTED NET CHANGE 2020 \ra{} 2025 WITH 95\% CI \qquad $\bullet$ point-based estimate \qquad $\diamond$ raw map count}\\[2mm]
+\begin{tikzpicture}\input{charts/significance}\end{tikzpicture}\\[2mm]
+\begin{tikzpicture}
+  \node[card,text width=5.2cm,inner sep=5pt,font=\scriptsize,anchor=north west] (m) at (0,0) {{\color{green}\bfseries Method}\\Olofsson adjusted area per class, per year, from the WorldView points. The 2020 and 2025 point sets are independent, so the half-width of the difference is $\sqrt{h_{2020}^2+h_{2025}^2}$.};
+  \node[card,text width=5.2cm,inner sep=5pt,font=\scriptsize,anchor=north west,fill=terra!12] (v) at (5.85,0) {{\color{terra}\bfseries Vegetation +94 $\pm$ 66 ha}\\The whole interval sits above zero (z = 2.8). Campus greening is the one change we can defend against map error.};
+  \node[card,text width=5.2cm,inner sep=5pt,font=\scriptsize,anchor=north west] (b) at (11.7,0) {{\color{muted}\bfseries Built-up and open land}\\Intervals cross zero ($-41 \pm 45$, $-50 \pm 62$ ha). Halving them needs about 4$\times$ the points (CI $\propto 1/\sqrt{n}$), so that is where new labelling should go.};
+\end{tikzpicture}
+\end{frame}
+
+% ---------------------------------------------------------------- limits
+\begin{frame}{What the map can and cannot support}{LIMITS}
+\begin{tikzpicture}[lim/.style={card,sharp corners,text width=5.25cm,minimum height=3.05cm,inner sep=6pt,font=\scriptsize,anchor=north west,align=left}]
+  \foreach \t/\b/\s [count=\i] in {
+    Open land is under-counted/Producer's 0.41 and 0.33; about 45 ha mapped as built-up or vegetation./treat open-land area as a lower bound,
+    Change accuracy is not measured/The change map combines two maps at 0.67 and 0.77./read 71.4 ha as an estimate,
+    10 m pixels mix surfaces/Roofs under canopy and small courts blur; B5-B7{,} B8A{,} B11{,} B12 are 20 m natively./small features are unreliable,
+    The 30 m filter drops narrow change/103.3 \ra{} 71.4 ha; class totals count every pixel{,} the from-to table does not./the two need not reconcile,
+    Labels come from Dynamic World/Lawns are called crops (50 ha in 2020); we remap by rule./independent points check that rule,
+    Few points{,} tiny water/CIs are about $\pm$0.10 wide; water is 0.7 ha and 18 of 43 points sit on pond edges./water is not estimable}{
+    \pgfmathsetmacro\x{mod(\i-1,3)*5.95}
+    \pgfmathsetmacro\y{-int((\i-1)/3)*3.3}
+    \node[lim] (l\i) at (\x,\y) {{\bfseries\small\t}\\[1mm]\b\\[1mm]{\color{terra}\bfseries So:} \s.};
+    \fill[terra] (l\i.north west) rectangle ([xshift=1mm]l\i.south west);
+  }
+\end{tikzpicture}\\[2mm]
+\begin{tikzpicture}
+  \node[fill=ink,text=white,rounded corners=3pt,text width=17.2cm,inner sep=5pt,font=\footnotesize\bfseries] {Two dates only: we can say what changed, not when.};
+\end{tikzpicture}
+\end{frame}
+
+% ---------------------------------------------------------------- conclusions
+\begin{frame}{15.2\% of the campus changed, mostly open land turning green}{CONCLUSIONS AND NEXT STEPS}
+\begin{columns}[T]
+\begin{column}{.46\textwidth}
+\begin{tikzpicture}
+  \foreach \v/\t [count=\i] in {71.4 ha/changed: 37.1 open \ra{} vegetation{,} 13.1 open \ra{} built-up (south-east compound){,} 11.8 built-up \ra{} vegetation,{+42.2 / $-$46.8 ha}/net{,} after the 30 m filter: vegetation gained 48.9 and lost 6.7 ha; open land lost 50.2 and gained 3.4 ha,33.5 ha/of built-up changed hands while its net moved under 5 ha,{0.67 / 0.77}/overall accuracy on 365 independent WorldView points}{
+    \node[anchor=south west,inner sep=0] at (0,-1.75*\i) {{\color{terra}\fontsize{17}{19}\selectfont\v}};
+    \node[anchor=north west,inner sep=0,text width=7.6cm,font=\scriptsize] at (0,-1.75*\i-.1) {\t};
+    \draw[rule] (0,-1.75*\i-1.05) -- (7.6,-1.75*\i-1.05);
+  }
+\end{tikzpicture}
+\end{column}
+\begin{column}{.5\textwidth}
+\capt{WHAT WE WOULD DO NEXT}\\[2mm]
+\begin{tikzpicture}
+  \foreach \t/\d/\c [count=\i] in {Own labels/train on WorldView labels{,} not Dynamic World/green,Change accuracy/sample the change map itself; area-adjusted change $\pm$ CI/terra,GLCM texture/separate roofs under canopy/green,2022 epoch/date when the south-east compound started/terra}{
+    \node[fill=\c,text=white,font=\scriptsize\bfseries,rounded corners=2pt,minimum width=2.1cm,minimum height=8mm,align=center] (c\i) at (0,-1.15*\i) {\t};
+    \node[anchor=west,text width=4.8cm,font=\scriptsize] at (1.2,-1.15*\i) {\d};
+  }
+  \foreach \a/\b in {1/2,2/3,3/4}{\draw[flowarrow] (c\a) -- (c\b);}
+\end{tikzpicture}
+\end{column}
+\end{columns}
+\end{frame}
+
+% ---------------------------------------------------------------- team
+\begin{frame}{Who did what}{TEAM}
+\begin{tikzpicture}[mem/.style={card,text width=5.25cm,minimum height=5.3cm,inner sep=7pt,anchor=north west,font=\scriptsize}]
+  \node[mem] at (0,0) {{\color{green}\large Ashutosh Sharma}\\\capt{23CS10005}\\[2mm]
+    \begin{itemize}\setlength\itemsep{1mm}
+    \item Earth Engine pipeline, first drafts to \texttt{gee/lulc\_pipeline.js}
+    \item Diagnosed run 1 and ran the tuning: proportional sampling, one forest, crops rule, 30 m filter, pre-monsoon and texture
+    \item Area-weighted accuracy and area estimates (Olofsson, Stehman)
+    \item Python runner that reproduces every number; all figures, README and this deck
+    \end{itemize}};
+  \node[mem] at (5.95,0) {{\color{green}\large Krishnkant Sahu}\\\capt{23CS10035}\\[2mm]
+    \begin{itemize}\setlength\itemsep{1mm}
+    \item Independent validation set: 365 points, stratified on map classes
+    \item Labelled on WorldView-2 and -3, offset-corrected to Sentinel-2
+    \item Labelling notes: dates, rules, hard cases
+    \item Point layers, sampling and export scripts
+    \end{itemize}};
+  \node[mem] at (11.9,0) {{\color{green}\large Sanskar Sovitkar}\\\capt{24CS10131}\\[2mm]
+    \begin{itemize}\setlength\itemsep{1mm}
+    \item Study-area figure: Google Earth Pro view with OSM boundary, north arrow, scale bar
+    \item Literature review of Sentinel-2 / Random Forest change studies
+    \item Framed the research gap: global products vs one campus
+    \end{itemize}};
+\end{tikzpicture}\\[3mm]
+\begin{tikzpicture}
+  \node[fill=ink,text=white,rounded corners=3pt,text width=17.2cm,inner sep=5pt,font=\scriptsize] {Code and results: \textbf{github.com/ashuwhy/landshift} \textperiodcentered\ gee/lulc\_pipeline.js \textperiodcentered\ scripts/run\_pipeline.py \textperiodcentered\ slides/make\_charts.py};
+\end{tikzpicture}
+\end{frame}
+
+% ---------------------------------------------------------------- thanks
+{\setbeamertemplate{footline}{}
+\begin{frame}[plain]
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[ink] (current page.north west) rectangle (current page.south east);
+  \node[anchor=east,opacity=.9] at ([xshift=-4mm]current page.east) {\includegraphics[width=10.5cm]{img/lulc_2025.png}};
+  \node[anchor=west,text=white,text width=7.6cm,align=left] at ([xshift=8mm]current page.west) {%
+    {\fontsize{30}{32}\selectfont\bfseries Thank you}\\[4mm]
+    {\small 15.2\% of the campus changed, mostly open land turning green.}\\[4mm]
+    {\color{copen}\scriptsize github.com/ashuwhy/landshift}\\[8mm]
+    {\scriptsize Ashutosh Sharma \textperiodcentered\ Krishnkant Sahu \textperiodcentered\ Sanskar Sovitkar}};
+\end{tikzpicture}
+\end{frame}}
+
+\end{document}
