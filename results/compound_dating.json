@@ -1,11 +1,11 @@
 {
- "open_to_built_campus_ha": 13.11,
- "site_ha": 23.81,
+ "open_to_built_campus_ha": 11.12,
+ "site_ha": 16.26,
  "site_centroid": [
-  87.3187,
-  22.3115
+  87.3184,
+  22.3125
  ],
- "site_open_to_built_ha": 10.8,
+ "site_open_to_built_ha": 6.2,
  "scenes_winter_dry": {
   "2020": [
    11,
@@ -36,44 +36,44 @@
   "2020": {
    "built-up": 0,
    "vegetation": 0,
-   "open land": 10.8,
+   "open land": 6.2,
    "water": 0
   },
   "2021": {
-   "built-up": 1.33,
-   "vegetation": 0.06,
-   "open land": 9.42,
+   "built-up": 0.11,
+   "vegetation": 0,
+   "open land": 6.09,
    "water": 0
   },
   "2022": {
-   "built-up": 4.11,
-   "vegetation": 2.11,
-   "open land": 4.59,
+   "built-up": 2.1,
+   "vegetation": 0,
+   "open land": 4.1,
    "water": 0
   },
   "2023": {
-   "built-up": 8.23,
-   "vegetation": 0.06,
-   "open land": 2.5,
+   "built-up": 3.8,
+   "vegetation": 0.01,
+   "open land": 2.38,
    "water": 0
   },
   "2024": {
-   "built-up": 6.92,
-   "vegetation": 0.41,
-   "open land": 3.47,
+   "built-up": 3.48,
+   "vegetation": 0,
+   "open land": 2.72,
    "water": 0
   },
   "2025": {
-   "built-up": 10.8,
+   "built-up": 6.2,
    "vegetation": 0,
    "open land": 0,
    "water": 0
   }
  },
  "campus_area_ha_2022": {
-  "0": 82.41,
-  "1": 327.6,
-  "2": 57.34,
-  "3": 0.63
+  "0": 60.82,
+  "1": 258.09,
+  "2": 147.99,
+  "3": 1.08
  }
 }

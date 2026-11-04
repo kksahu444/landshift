@@ -4,12 +4,13 @@
 //
 // Paste into code.earthengine.google.com and press Run. Nothing has to be drawn first:
 //   - the campus boundary is OSM way 52435606, embedded below
-//   - training labels come from Dynamic World (stable, high-agreement pixels only)
-//   - one Random Forest is trained on both years and applied to both
-// Optional: hand-labelled validation points as imports named
+//   - training labels are the 556 points I labelled on WorldView: paste gee/training_points.js
+//     (training20, training25) above this file, or the forest has nothing to train on
+//   - one Random Forest, 500 trees, is trained on both years and applied to both
+// Optional: gee/validation_points.js, pasted above as well, defines
 //   built20, veg20, open20, water20, built25, veg25, open25, water25
-// (point FeatureCollections). When present they give the independent accuracy
-// figures; without them only the Dynamic World holdout agreement is printed.
+// and gives the independent accuracy figures (unweighted; scripts/run_pipeline.py has the
+// area-weighted ones). Without them only the agreement with Dynamic World is printed.
 
 var aoi = ee.Geometry.Polygon([[
   [87.29372, 22.31302], [87.29374, 22.31260], [87.29375, 22.31245], [87.29377, 22.31198], [87.29389, 22.31166], [87.29399, 22.31146],
@@ -55,8 +56,12 @@ var CLOUD_AOI_MAX = 10;
 var CLOUD_AOI_MAX_DRY = 20;
 var CLASS_NAMES = ee.List(['Built-up', 'Vegetation', 'Open land', 'Water']);
 var ORDER = [0, 1, 2, 3];
+var TREES = 500;
+// The water training points are ponds up to 3 km outside the fence (training/NOTES.md), so the stack the
+// training points are read from reaches that far; the maps stay clipped to the campus.
+var TRAIN_REGION = aoi.buffer(3500);
 
-// Dynamic World label -> project class.
+// Dynamic World label -> project class. Runs 1-3 trained on these labels; now they are only compared with.
 // DW: 0 water, 1 trees, 2 grass, 3 flooded veg, 4 crops, 5 shrub, 6 built, 7 bare
 // Grass, crops and shrub go to open land. There is no farmland inside the fence; DW labels
 // the lawns and playgrounds as crops, and almost never as grass. DW's shrub on campus is the
@@ -64,10 +69,9 @@ var ORDER = [0, 1, 2, 3];
 var DW_FROM = [0, 1, 2, 3, 4, 5, 6, 7];
 var DW_TO   = [3, 1, 2, 1, 2, 2, 0, 2];
 var DW_MIN_AGREEMENT = 0.6;
-// Close to the campus class shares (about 22 / 70 / 7 / 0.2 %), with a floor so water
-// still has something to learn from. Equal counts per class made the forest call
-// half the campus built-up. Open land is sampled above its share: at its share the forest
-// rarely predicted it, and the reference points found about four times the mapped area.
+// The Dynamic World sample runs 1-3 trained on, kept unchanged so the agreement figure stays
+// comparable. Close to the campus class shares (about 22 / 70 / 7 / 0.2 %), with a floor for
+// water; open land above its share, since at its share the forest rarely predicted it.
 var CLASS_POINTS = [300, 700, 450, 40];
 
 function addAoiCloud(img) {
@@ -84,30 +88,33 @@ function prep(img) {
                      .copyProperties(img, ['system:time_start']));
 }
 
-function seasonal(label, start, end, cloudMax) {
+function seasonal(label, start, end, cloudMax, region) {
   var col = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
     .filterBounds(aoi).filterDate(start, end)
     .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 40))
     .map(addAoiCloud)
     .filter(ee.Filter.lt('aoi_cloud_pct', cloudMax));
-  print(label + ': scenes used', col.size());
-  print(label + ': scene table', ee.FeatureCollection(col.map(function (i) {
-    return ee.Feature(null, {date: i.date().format('YYYY-MM-dd'), tile: i.get('MGRS_TILE'),
-      tile_cloud_pct: i.get('CLOUDY_PIXEL_PERCENTAGE'), aoi_cloud_pct: i.get('aoi_cloud_pct')});
-  })));
-  var comp = col.map(prep).median().clip(aoi);
+  // The training stack uses the same scenes (cloud is still judged over the campus), so only the map stack prints them.
+  if (!region) {
+    print(label + ': scenes used', col.size());
+    print(label + ': scene table', ee.FeatureCollection(col.map(function (i) {
+      return ee.Feature(null, {date: i.date().format('YYYY-MM-dd'), tile: i.get('MGRS_TILE'),
+        tile_cloud_pct: i.get('CLOUDY_PIXEL_PERCENTAGE'), aoi_cloud_pct: i.get('aoi_cloud_pct')});
+    })));
+  }
+  var comp = col.map(prep).median().clip(region || aoi);
   return comp
     .addBands(comp.normalizedDifference(['B8','B4']).rename('NDVI'))
     .addBands(comp.normalizedDifference(['B11','B8']).rename('NDBI'))
     .addBands(comp.normalizedDifference(['B3','B8']).rename('NDWI'));
 }
 
-// Winter composite plus two things DW labels alone cannot separate lawns from canopy with:
-// 3x3 texture (canopy is rough, lawns are smooth) and the March-May composite, when grass
-// dries out and trees stay green.
-function composite(ep) {
-  var comp = seasonal(ep.label, ep.start, ep.end, CLOUD_AOI_MAX);
-  var dry = seasonal(ep.label + ' pre-monsoon', ep.dryStart, ep.dryEnd, CLOUD_AOI_MAX_DRY)
+// Winter composite plus two things that separate lawns from canopy: 3x3 texture (canopy is
+// rough, lawns are smooth) and the March-May composite, when grass dries out and trees stay green.
+// region defaults to the campus; the training stack passes TRAIN_REGION.
+function composite(ep, region) {
+  var comp = seasonal(ep.label, ep.start, ep.end, CLOUD_AOI_MAX, region);
+  var dry = seasonal(ep.label + ' pre-monsoon', ep.dryStart, ep.dryEnd, CLOUD_AOI_MAX_DRY, region)
     .select(['B4','B8','B11','B12','NDVI','NDBI','NDWI'], ['dB4','dB8','dB11','dB12','dNDVI','dNDBI','dNDWI']);
   var sd = ee.Reducer.stdDev();
   return comp
@@ -154,7 +161,7 @@ function labelledSamples(ep, year) {
 }
 
 function assess(e, year, hand) {
-  printAccuracy(year + ' [DW holdout, not independent]',
+  printAccuracy(year + ' [agreement with Dynamic World, not accuracy]',
     tested.filter(ee.Filter.eq('year', year)).errorMatrix('class', 'classification', ORDER));
   if (hand) {
     var pts = e.stack.sampleRegions({collection: handLabelled(hand), properties: ['class'], scale: 10, tileScale: 4});
@@ -184,12 +191,16 @@ var e1 = labelledSamples(EPOCHS[0], 2020);
 var e2 = labelledSamples(EPOCHS[1], 2025);
 
 // One forest for both years, so a pixel changes class only when its spectra change,
-// not because two separately trained models disagree.
-var pooled = e1.samples.merge(e2.samples);
-var train = pooled.filter(ee.Filter.lt('r', 0.7));
-var holdout = pooled.filter(ee.Filter.gte('r', 0.7));
-print('train / holdout', train.size(), holdout.size());
-var rf = ee.Classifier.smileRandomForest({numberOfTrees: 100, seed: 42}).train({
+// not because two separately trained models disagree. The Dynamic World samples that used to
+// train it are kept only for the agreement check, on the same 30 % split as before.
+var holdout = e1.samples.merge(e2.samples).filter(ee.Filter.gte('r', 0.7));
+var train = ee.FeatureCollection([
+  composite(EPOCHS[0], TRAIN_REGION).sampleRegions({collection: training20, properties: ['class'], scale: 10, tileScale: 4}),
+  composite(EPOCHS[1], TRAIN_REGION).sampleRegions({collection: training25, properties: ['class'], scale: 10, tileScale: 4})
+]).flatten();
+print('training points / DW holdout', train.size(), holdout.size());
+print('training points per class', train.aggregate_histogram('class'));
+var rf = ee.Classifier.smileRandomForest({numberOfTrees: TREES, seed: 42}).train({
   features: train, classProperty: 'class', inputProperties: e1.stack.bandNames()});
 print('RF variable importance', ee.Dictionary(rf.explain().get('importance')));
 var tested = holdout.classify(rf);

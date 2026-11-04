@@ -113,13 +113,13 @@ for row, (key, ylabel) in enumerate((('independent_area_weighted', 'hand-labelle
             ax.set_title(f'{year}: {sum(map(sum, m))} points\nOA {acc["overall"]:.2f} (95 % CI {lo:.2f}-{hi:.2f}), area-weighted',
                          color=INK, fontsize=13)
         else:
-            ax.set_title(f'{year}: DW holdout\nOA {acc["overall"]:.2f}, kappa {acc["kappa"]:.2f}', color=INK, fontsize=13)
+            ax.set_title(f'{year}: agreement with Dynamic World\nOA {acc["overall"]:.2f}, kappa {acc["kappa"]:.2f}', color=INK, fontsize=13)
         ax.spines[:].set_visible(False)
 fig.subplots_adjust(left=0.1, right=0.97, top=0.9, bottom=0.12, wspace=0.3, hspace=0.6)
 notes = ('Independent: stratified random points labelled on WorldView imagery (Krishnkant Sahu). '
          'Point counts; OA weighted by map-class area.',
-         f'Dynamic World holdout ({r["holdout"]} pixels over both years): agreement with the training source, '
-         'not independent.')
+         f'Dynamic World pixels ({r["holdout"]} over both years, never used for training): agreement with another map, '
+         'not accuracy.')
 for row, note in enumerate(notes):
     fig.text(0.5, axes[row][0].get_position().y0 - 0.075, note, ha='center', fontsize=10.5, color=MUTED)
 finish(fig, '05_accuracy.png', 'Classification accuracy')

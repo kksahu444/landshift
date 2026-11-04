@@ -102,7 +102,8 @@ def importance():
     label = lambda k: (k[1:] + ' pre-mon.' if k.startswith('d') else k).replace('_sd', ' texture').replace('_drop', ' drop')
     group = lambda k: 'saffron' if k.startswith('d') or k == 'NDVI_drop' else ('iris' if k.endswith('_sd') else 'muted')
     top = sorted(R['importance'].items(), key=lambda kv: -kv[1])[:10]
-    sx, rh = 0.026, 0.36
+    # Gini importance sums over trees, so it grows with the forest; bars are scaled to the top feature
+    sx, rh = 4.13 / top[0][1], 0.36
     out = []
     for i, (k, v) in enumerate(top):
         y = -i * rh
@@ -228,3 +229,76 @@ def compound():
 
 
 write('compound', compound())
+
+
+VS = json.load(open(HERE.parent / 'results' / 'variant_scores.json'))['variants']
+
+
+def label_test():
+    """Paired OA gain over run 3 on each half of the points (scripts/compare_variants.py --score E5), mean of both years."""
+    rows = [(None, 'DYNAMIC WORLD LABELS', 'muted'), ('R1', '+ Sentinel-1 radar'),
+            ('A2', '+ AlphaEarth embeddings'), ('B1', '+ Open Buildings 2.5D'), ('G1', '+ GLCM texture'),
+            ('E5t500', '500 trees instead of 100'), ('L1', 'only pixels ESRI agrees on'),
+            (None, 'OUR WORLDVIEW LABELS', 'saffron'), ('O1t500', 'run 4: same 23 features'),
+            ('P1', '+ Sentinel-1 radar'), ('P6', '+ GLCM texture'), ('O3', '+ AlphaEarth embeddings')]
+    lim, w, rh = 0.15, 3.0, 0.335
+    panels = {'odd': 3.85, 'even': 7.15}
+    sx, bottom = w / (2 * lim), -(len(rows) - 0.5) * rh
+    ship = [k for k, *_ in rows].index('O1t500')
+    out = [f'\\fill[saffron!12] (-0.15,{-(ship - 0.5) * rh:.2f}) rectangle ({panels["even"] + w + 0.85:.2f},{-(ship + 0.5) * rh:.2f});']
+    for half, x0 in panels.items():
+        cx = x0 + w / 2
+        for t in (-0.1, -0.05, 0, 0.05, 0.1):
+            out.append(f'\\draw[{"ink,thick" if t == 0 else "rule"}] ({cx + t * sx:.2f},0.25) -- ({cx + t * sx:.2f},{bottom:.2f});')
+        for t in (-0.1, 0, 0.1):
+            tick = f'{t:+.2f}'.replace('+0.00', '0').replace('-', '$-$')
+            out.append(f'\\node[font=\\tiny,text=muted] at ({cx + t * sx:.2f},{bottom - 0.2:.2f}) {{{tick}}};')
+        title = 'CHOSEN ON: ODD IDS' if half == 'odd' else 'HELD OUT: EVEN IDS'
+        out.append(f'\\node[font=\\tiny\\bfseries,text=iris] at ({cx:.2f},0.45) {{{title}}};')
+    col = 'muted'
+    for i, (key, text, *c) in enumerate(rows):
+        y = -i * rh
+        if key is None:
+            col = c[0]
+            out.append(f'\\node[anchor=west,font=\\tiny\\bfseries,text={col},inner sep=0] at (-0.1,{y:.2f}) {{{text}}};')
+            continue
+        bold = '\\bfseries' if key == 'O1t500' else ''
+        out.append(f'\\node[anchor=east,font=\\scriptsize{bold}] at (3.7,{y:.2f}) {{{text}}};')
+        for half, x0 in panels.items():
+            d, lo, hi = VS[key][f'{half}_diff']
+            cx = x0 + w / 2
+            out.append(f'\\draw[{col},line width=1.5pt] ({cx + max(lo, -lim) * sx:.3f},{y:.2f}) -- ({cx + min(hi, lim) * sx:.3f},{y:.2f});')
+            out.append(f'\\fill[{"ink" if key == "O1t500" else col}] ({cx + d * sx:.3f},{y:.2f}) circle ({3 if key == "O1t500" else 2.3}pt);')
+        gain = f"{VS[key]['even_diff'][0]:+.3f}".replace('-', '$-$')
+        out.append(f'\\node[anchor=west,font=\\tiny{bold},text={col}] at ({panels["even"] + w + 0.05:.2f},{y:.2f}) {{{gain}}};')
+    return out
+
+
+def label_seeds():
+    """Mean OA of both years for seven forests per label source on each half: seeds 42, 1, 7, 13, 99, 2026 and 500 trees."""
+    keys = lambda g: [g] + [f'{g}s{s}' for s in (1, 7, 13, 99, 2026)] + [f'{g}t500']
+    lo, sy = 0.64, 14
+    out = []
+    for t in (0.65, 0.70, 0.75, 0.80, 0.85):
+        out.append(f'\\draw[rule] (0,{(t - lo) * sy:.2f}) -- (4.9,{(t - lo) * sy:.2f});')
+        out.append(f'\\node[anchor=east,font=\\tiny,text=muted] at (-0.05,{(t - lo) * sy:.2f}) {{{t:.2f}}};')
+    spread = {}
+    for j, half in enumerate(('odd', 'even')):
+        for k, (g, col, name) in enumerate((('E5', 'muted', 'DW'), ('O1', 'saffron', 'own'))):
+            x = 1.0 + 2.4 * j + 1.0 * k
+            vals = [sum(VS[v][f'{half}_oa']) / 2 for v in keys(g)]
+            spread[half, name] = (min(vals), sum(vals) / len(vals), max(vals))
+            for i, v in enumerate(vals):
+                out.append(f'\\fill[{col},opacity=.85] ({x + (i - 3) * 0.1:.2f},{(v - lo) * sy:.3f}) circle (2.2pt);')
+            m = (sum(vals) / len(vals) - lo) * sy
+            out.append(f'\\draw[ink,line width=1pt] ({x - 0.42:.2f},{m:.3f}) -- ({x + 0.42:.2f},{m:.3f});')
+            out.append(f'\\node[font=\\tiny\\bfseries,text={col}] at ({x:.2f},-0.22) {{{name}}};')
+        out.append(f'\\node[font=\\tiny\\bfseries,text=iris] at ({1.5 + 2.4 * j:.2f},-0.52) {{{"CHOSEN ON" if half == "odd" else "HELD OUT"}}};')
+    return out, spread
+
+
+write('label_test', label_test())
+seeds, spread = label_seeds()
+write('label_seeds', seeds)
+for k, (a, m, b) in spread.items():
+    print('seven forests', *k, f'min {a:.3f} mean {m:.3f} max {b:.3f}')

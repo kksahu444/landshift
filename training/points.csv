@@ -1,0 +1,557 @@
+id,year,lon,lat,label,class,confidence,source,reference_image,note
+T20-001,2020,87.319844,22.309633,open land,2,high,campus random,WV2 2020-03-15,dry grass field
+T25-001,2025,87.319844,22.309633,open land,2,high,campus random,WV3 2024-01-13,dry grass field
+T20-002,2020,87.306799,22.316094,vegetation,1,low,campus random,WV2 2020-03-15,canopy and ground near small structure
+T25-002,2025,87.306799,22.316094,vegetation,1,low,campus random,WV3 2024-01-13,scrub beside track
+T20-003,2020,87.313023,22.318027,vegetation,1,medium,campus random,WV2 2020-03-15,canopy beside buildings
+T25-003,2025,87.313023,22.318027,vegetation,1,high,campus random,WV3 2024-01-13,canopy beside buildings
+T20-004,2020,87.297788,22.310929,built-up,0,medium,campus random,WV2 2020-03-15,long roof
+T25-004,2025,87.297788,22.310929,vegetation,1,low,campus random,WV3 2024-01-13,tree crown over the roof in 2024
+T20-005,2020,87.320879,22.311501,open land,2,high,campus random,WV2 2020-03-15,dry grass
+T20-006,2020,87.312267,22.314439,open land,2,low,campus random,WV2 2020-03-15,bare construction ground and walkway
+T25-006,2025,87.312267,22.314439,open land,2,medium,campus random,WV3 2024-01-13,lawn by new plaza
+T20-007,2020,87.300120,22.313134,vegetation,1,low,campus random,WV2 2020-03-15,canopy between residential blocks
+T25-007,2025,87.300120,22.313134,vegetation,1,low,campus random,WV3 2024-01-13,canopy between residential blocks
+T20-008,2020,87.319205,22.314842,vegetation,1,high,campus random,WV2 2020-03-15,canopy
+T25-008,2025,87.319205,22.314842,vegetation,1,high,campus random,WV3 2024-01-13,canopy
+T20-009,2020,87.322423,22.312040,open land,2,high,campus random,WV2 2020-03-15,dry grass
+T25-009,2025,87.322423,22.312040,open land,2,high,campus random,WV3 2024-01-13,dry grass
+T20-010,2020,87.307156,22.309377,built-up,0,medium,campus random,WV2 2020-03-15,paved road beside red-roof building
+T25-010,2025,87.307156,22.309377,built-up,0,medium,campus random,WV3 2024-01-13,paved road beside red-roof building
+T20-011,2020,87.312552,22.315422,open land,2,medium,campus random,WV2 2020-03-15,bare yard
+T25-011,2025,87.312552,22.315422,vegetation,1,low,campus random,WV3 2024-01-13,grass with shrubs
+T20-012,2020,87.311628,22.311899,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-012,2025,87.311628,22.311899,vegetation,1,high,campus random,WV3 2024-01-13,canopy
+T20-013,2020,87.309028,22.318657,built-up,0,high,campus random,WV2 2020-03-15,open-air theatre concrete seating
+T25-013,2025,87.309028,22.318657,built-up,0,high,campus random,WV3 2024-01-13,open-air theatre concrete seating
+T20-014,2020,87.302814,22.321589,built-up,0,medium,campus random,WV2 2020-03-15,flat roof
+T25-014,2025,87.302814,22.321589,built-up,0,medium,campus random,WV3 2024-01-13,flat roof
+T20-015,2020,87.318492,22.312311,open land,2,medium,campus random,WV2 2020-03-15,dry grass and bare
+T20-016,2020,87.302205,22.313635,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-016,2025,87.302205,22.313635,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-017,2020,87.299557,22.311043,open land,2,low,campus random,WV2 2020-03-15,lawn between buildings
+T25-017,2025,87.299557,22.311043,vegetation,1,low,campus random,WV3 2024-01-13,crown in 2024
+T20-018,2020,87.317831,22.318976,vegetation,1,medium,campus random,WV2 2020-03-15,canopy beside road
+T25-018,2025,87.317831,22.318976,vegetation,1,medium,campus random,WV3 2024-01-13,canopy beside road
+T20-019,2020,87.315976,22.307638,open land,2,medium,campus random,WV2 2020-03-15,dry grass with shrubs
+T25-019,2025,87.315976,22.307638,vegetation,1,medium,campus random,WV3 2024-01-13,scrub closed in by 2024
+T20-020,2020,87.314700,22.315041,open land,2,low,campus random,WV2 2020-03-15,grass strip and laterite road
+T25-020,2025,87.314700,22.315041,open land,2,low,campus random,WV3 2024-01-13,grass strip and laterite road
+T20-021,2020,87.319220,22.315227,vegetation,1,high,campus random,WV2 2020-03-15,canopy
+T25-021,2025,87.319220,22.315227,vegetation,1,high,campus random,WV3 2024-01-13,canopy
+T20-022,2020,87.322053,22.315606,vegetation,1,high,campus random,WV2 2020-03-15,canopy
+T25-022,2025,87.322053,22.315606,vegetation,1,high,campus random,WV3 2024-01-13,canopy
+T20-023,2020,87.313373,22.315872,vegetation,1,medium,campus random,WV2 2020-03-15,canopy near buildings
+T25-023,2025,87.313373,22.315872,vegetation,1,low,campus random,WV3 2024-01-13,canopy near buildings
+T20-024,2020,87.319603,22.316183,vegetation,1,high,campus random,WV2 2020-03-15,canopy
+T25-024,2025,87.319603,22.316183,vegetation,1,high,campus random,WV3 2024-01-13,canopy
+T20-025,2020,87.315119,22.317088,open land,2,low,campus random,WV2 2020-03-15,lawn among trees
+T25-025,2025,87.315119,22.317088,vegetation,1,low,campus random,WV3 2024-01-13,shrubs
+T20-026,2020,87.304398,22.315256,built-up,0,medium,campus random,WV2 2020-03-15,building under construction
+T25-026,2025,87.304398,22.315256,built-up,0,low,campus random,WV3 2024-01-13,building edge
+T20-027,2020,87.310206,22.314893,built-up,0,low,campus random,WV2 2020-03-15,paved road
+T20-028,2020,87.304397,22.314319,vegetation,1,medium,campus random,WV2 2020-03-15,canopy beside building
+T25-028,2025,87.304397,22.314319,vegetation,1,medium,campus random,WV3 2024-01-13,canopy beside building
+T20-029,2020,87.317892,22.308874,open land,2,high,campus random,WV2 2020-03-15,dry grass
+T25-029,2025,87.317892,22.308874,open land,2,medium,campus random,WV3 2024-01-13,dry grass
+T20-030,2020,87.295870,22.315370,open land,2,medium,campus random,WV2 2020-03-15,bare yard by shed
+T25-030,2025,87.295870,22.315370,vegetation,1,low,campus random,WV3 2024-01-13,trees
+T20-031,2020,87.310117,22.310549,vegetation,1,low,campus random,WV2 2020-03-15,canopy in residential quarter
+T25-031,2025,87.310117,22.310549,vegetation,1,medium,campus random,WV3 2024-01-13,canopy in residential quarter
+T20-032,2020,87.310382,22.318054,vegetation,1,medium,campus random,WV2 2020-03-15,canopy beside building
+T25-032,2025,87.310382,22.318054,vegetation,1,low,campus random,WV3 2024-01-13,canopy beside building
+T20-033,2020,87.309540,22.321079,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-033,2025,87.309540,22.321079,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-034,2020,87.299790,22.320227,built-up,0,low,campus random,WV2 2020-03-15,covered walkway between hostel blocks
+T25-034,2025,87.299790,22.320227,built-up,0,low,campus random,WV3 2024-01-13,covered walkway between hostel blocks
+T20-035,2020,87.323141,22.313178,vegetation,1,low,campus random,WV2 2020-03-15,shrub edge on grassland
+T25-035,2025,87.323141,22.313178,vegetation,1,medium,campus random,WV3 2024-01-13,shrub edge on grassland
+T20-036,2020,87.300763,22.309389,open land,2,medium,campus random,WV2 2020-03-15,lawn by bungalow
+T25-036,2025,87.300763,22.309389,open land,2,low,campus random,WV3 2024-01-13,lawn by bungalow
+T20-037,2020,87.302974,22.320456,vegetation,1,low,campus random,WV2 2020-03-15,tree crown on lawn
+T25-037,2025,87.302974,22.320456,vegetation,1,low,campus random,WV3 2024-01-13,tree crown on lawn
+T20-038,2020,87.306042,22.309408,built-up,0,low,campus random,WV2 2020-03-15,small roof under canopy
+T25-038,2025,87.306042,22.309408,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-039,2020,87.297120,22.311832,open land,2,medium,campus random,WV2 2020-03-15,lawn
+T25-039,2025,87.297120,22.311832,vegetation,1,low,campus random,WV3 2024-01-13,canopy in 2024
+T20-040,2020,87.300942,22.320969,built-up,0,medium,campus random,WV2 2020-03-15,road edge and roofs
+T25-040,2025,87.300942,22.320969,built-up,0,medium,campus random,WV3 2024-01-13,solar roof
+T20-041,2020,87.296287,22.314210,vegetation,1,high,campus random,WV2 2020-03-15,canopy
+T25-041,2025,87.296287,22.314210,open land,2,low,campus random,WV3 2024-01-13,bare ground by new building
+T20-042,2020,87.306366,22.322371,open land,2,low,campus random,WV2 2020-03-15,hostel courtyard lawn
+T25-042,2025,87.306366,22.322371,open land,2,low,campus random,WV3 2024-01-13,hostel courtyard lawn
+T20-043,2020,87.308298,22.307682,built-up,0,medium,campus random,WV2 2020-03-15,row of small houses
+T25-043,2025,87.308298,22.307682,built-up,0,low,campus random,WV3 2024-01-13,row of small houses
+T20-044,2020,87.316716,22.311816,open land,2,low,campus random,WV2 2020-03-15,dry grass with shrubs
+T25-044,2025,87.316716,22.311816,vegetation,1,medium,campus random,WV3 2024-01-13,scrub
+T20-045,2020,87.307857,22.315471,open land,2,high,campus random,WV2 2020-03-15,sports field
+T25-045,2025,87.307857,22.315471,open land,2,high,campus random,WV3 2024-01-13,sports field
+T20-046,2020,87.314299,22.317771,vegetation,1,low,campus random,WV2 2020-03-15,canopy among houses
+T25-046,2025,87.314299,22.317771,vegetation,1,medium,campus random,WV3 2024-01-13,canopy among houses
+T20-047,2020,87.316873,22.314507,open land,2,high,campus random,WV2 2020-03-15,bare red soil
+T25-047,2025,87.316873,22.314507,built-up,0,medium,campus random,WV3 2024-01-13,polyhouse roofs
+T20-048,2020,87.302595,22.311462,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-048,2025,87.302595,22.311462,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-049,2020,87.302983,22.317300,water,3,low,campus random,WV2 2020-03-15,dark channel along hostel wall
+T25-049,2025,87.302983,22.317300,vegetation,1,low,campus random,WV3 2024-01-13,overhung by canopy
+T20-050,2020,87.299978,22.313974,vegetation,1,high,campus random,WV2 2020-03-15,canopy
+T25-050,2025,87.299978,22.313974,vegetation,1,high,campus random,WV3 2024-01-13,canopy
+T20-051,2020,87.295384,22.311854,open land,2,medium,campus random,WV2 2020-03-15,lawn with paths
+T25-051,2025,87.295384,22.311854,open land,2,medium,campus random,WV3 2024-01-13,lawn with paths
+T20-052,2020,87.301677,22.314154,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-052,2025,87.301677,22.314154,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-053,2020,87.304005,22.319059,built-up,0,medium,campus random,WV2 2020-03-15,flat roof
+T20-054,2020,87.310802,22.311338,open land,2,low,campus random,WV2 2020-03-15,lawn among trees
+T25-054,2025,87.310802,22.311338,vegetation,1,low,campus random,WV3 2024-01-13,canopy
+T20-055,2020,87.302451,22.321178,built-up,0,medium,campus random,WV2 2020-03-15,paved road
+T25-055,2025,87.302451,22.321178,vegetation,1,low,campus random,WV3 2024-01-13,canopy over road
+T20-056,2020,87.325016,22.310510,open land,2,low,campus random,WV2 2020-03-15,rubble and shrubs
+T25-056,2025,87.325016,22.310510,vegetation,1,medium,campus random,WV3 2024-01-13,trees
+T20-057,2020,87.302119,22.321801,built-up,0,low,campus random,WV2 2020-03-15,yard between roofs
+T25-057,2025,87.302119,22.321801,vegetation,1,medium,campus random,WV3 2024-01-13,tree crown
+T20-058,2020,87.310794,22.310616,open land,2,low,campus random,WV2 2020-03-15,lawn under scattered trees
+T25-058,2025,87.310794,22.310616,vegetation,1,low,campus random,WV3 2024-01-13,crown
+T20-059,2020,87.327439,22.311981,open land,2,medium,campus random,WV2 2020-03-15,dry grass and scrub
+T25-059,2025,87.327439,22.311981,open land,2,low,campus random,WV3 2024-01-13,dry grass and scrub
+T20-060,2020,87.300824,22.317847,vegetation,1,low,campus random,WV2 2020-03-15,hedge and scrub
+T25-060,2025,87.300824,22.317847,vegetation,1,low,campus random,WV3 2024-01-13,hedge and scrub
+T20-061,2020,87.296885,22.314227,vegetation,1,low,campus random,WV2 2020-03-15,shaded ground and canopy below tall block
+T25-061,2025,87.296885,22.314227,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-062,2020,87.306649,22.310857,vegetation,1,medium,campus random,WV2 2020-03-15,canopy between buildings
+T25-062,2025,87.306649,22.310857,vegetation,1,low,campus random,WV3 2024-01-13,canopy between buildings
+T20-063,2020,87.298206,22.308465,built-up,0,low,campus random,WV2 2020-03-15,roof and courtyard of apartment blocks
+T25-063,2025,87.298206,22.308465,built-up,0,low,campus random,WV3 2024-01-13,roof and courtyard of apartment blocks
+T20-064,2020,87.313763,22.316392,open land,2,low,campus random,WV2 2020-03-15,small garden plot among buildings
+T25-064,2025,87.313763,22.316392,open land,2,medium,campus random,WV3 2024-01-13,small garden plot among buildings
+T20-065,2020,87.303302,22.321972,built-up,0,medium,campus random,WV2 2020-03-15,"hostel block roof (2024 roofs lean south, footprint from 2020)"
+T25-065,2025,87.303302,22.321972,built-up,0,low,campus random,WV3 2024-01-13,"hostel block roof (2024 roofs lean south, footprint from 2020)"
+T20-066,2020,87.302589,22.316779,vegetation,1,high,campus random,WV2 2020-03-15,canopy
+T25-066,2025,87.302589,22.316779,vegetation,1,high,campus random,WV3 2024-01-13,canopy
+T20-067,2020,87.309733,22.321975,vegetation,1,medium,campus random,WV2 2020-03-15,canopy beside building
+T25-067,2025,87.309733,22.321975,vegetation,1,low,campus random,WV3 2024-01-13,canopy beside building
+T20-068,2020,87.311839,22.322344,vegetation,1,low,campus random,WV2 2020-03-15,canopy over small building
+T25-068,2025,87.311839,22.322344,vegetation,1,medium,campus random,WV3 2024-01-13,canopy over small building
+T20-069,2020,87.315574,22.321892,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-069,2025,87.315574,22.321892,vegetation,1,low,campus random,WV3 2024-01-13,canopy
+T20-070,2020,87.317466,22.311598,open land,2,medium,campus random,WV2 2020-03-15,dry grass with shrubs and tracks
+T25-070,2025,87.317466,22.311598,open land,2,low,campus random,WV3 2024-01-13,dry grass with shrubs and tracks
+T20-071,2020,87.306866,22.309784,open land,2,low,campus random,WV2 2020-03-15,lawn among trees
+T25-071,2025,87.306866,22.309784,vegetation,1,low,campus random,WV3 2024-01-13,canopy
+T20-072,2020,87.298305,22.311101,built-up,0,medium,campus random,WV2 2020-03-15,roof and paved court
+T25-072,2025,87.298305,22.311101,built-up,0,medium,campus random,WV3 2024-01-13,roof and paved court
+T20-073,2020,87.301080,22.313538,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-073,2025,87.301080,22.313538,vegetation,1,low,campus random,WV3 2024-01-13,grass and scrub with a tree
+T20-074,2020,87.306833,22.312265,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-074,2025,87.306833,22.312265,vegetation,1,high,campus random,WV3 2024-01-13,canopy
+T20-075,2020,87.315983,22.314571,open land,2,high,campus random,WV2 2020-03-15,field strips
+T25-075,2025,87.315983,22.314571,open land,2,high,campus random,WV3 2024-01-13,field strips
+T20-076,2020,87.307462,22.312271,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-076,2025,87.307462,22.312271,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-077,2020,87.321460,22.313903,vegetation,1,high,campus random,WV2 2020-03-15,canopy
+T20-078,2020,87.296274,22.315725,open land,2,low,campus random,WV2 2020-03-15,"works yard, bare ground and heaps"
+T25-078,2025,87.296274,22.315725,open land,2,low,campus random,WV3 2024-01-13,"works yard, bare ground and heaps"
+T20-079,2020,87.305089,22.311440,built-up,0,medium,campus random,WV2 2020-03-15,small roof among trees
+T25-079,2025,87.305089,22.311440,built-up,0,low,campus random,WV3 2024-01-13,small roof among trees
+T20-080,2020,87.299072,22.309366,open land,2,medium,campus random,WV2 2020-03-15,bare ground by wall
+T25-080,2025,87.299072,22.309366,built-up,0,low,campus random,WV3 2024-01-13,long shed roof
+T20-081,2020,87.328120,22.312936,open land,2,medium,campus random,WV2 2020-03-15,grass and scrub beside road
+T25-081,2025,87.328120,22.312936,open land,2,medium,campus random,WV3 2024-01-13,grass and scrub beside road
+T20-082,2020,87.315950,22.308309,open land,2,medium,campus random,WV2 2020-03-15,dry grass by dirt road
+T25-082,2025,87.315950,22.308309,vegetation,1,low,campus random,WV3 2024-01-13,scrub
+T20-083,2020,87.310233,22.307562,open land,2,low,campus random,WV2 2020-03-15,gardens between barracks
+T25-083,2025,87.310233,22.307562,vegetation,1,low,campus random,WV3 2024-01-13,gardens between barracks
+T20-084,2020,87.314413,22.321086,vegetation,1,low,campus random,WV2 2020-03-15,yard under canopy
+T20-085,2020,87.316376,22.317525,built-up,0,medium,campus random,WV2 2020-03-15,hostel blocks
+T25-085,2025,87.316376,22.317525,built-up,0,medium,campus random,WV3 2024-01-13,hostel blocks
+T20-086,2020,87.313511,22.309887,open land,2,low,campus random,WV2 2020-03-15,dry grass and shrubs along a drain
+T25-086,2025,87.313511,22.309887,vegetation,1,low,campus random,WV3 2024-01-13,scrub
+T20-087,2020,87.314015,22.315918,built-up,0,high,campus random,WV2 2020-03-15,blue shed roof
+T25-087,2025,87.314015,22.315918,built-up,0,high,campus random,WV3 2024-01-13,blue shed roof
+T20-088,2020,87.307037,22.314321,built-up,0,low,campus random,WV2 2020-03-15,path between building rows
+T25-088,2025,87.307037,22.314321,vegetation,1,low,campus random,WV3 2024-01-13,canopy and shade
+T20-089,2020,87.322434,22.316343,vegetation,1,medium,campus random,WV2 2020-03-15,canopy with footpath
+T25-089,2025,87.322434,22.316343,vegetation,1,medium,campus random,WV3 2024-01-13,canopy with footpath
+T20-090,2020,87.303083,22.319126,open land,2,low,campus random,WV2 2020-03-15,garden beds and lawn
+T25-090,2025,87.303083,22.319126,open land,2,low,campus random,WV3 2024-01-13,garden beds and lawn
+T20-091,2020,87.294907,22.316128,built-up,0,high,campus random,WV2 2020-03-15,academic block roof
+T25-091,2025,87.294907,22.316128,built-up,0,medium,campus random,WV3 2024-01-13,academic block roof
+T20-092,2020,87.309482,22.317210,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-092,2025,87.309482,22.317210,vegetation,1,low,campus random,WV3 2024-01-13,shrubs and canopy
+T20-093,2020,87.299496,22.315877,open land,2,low,campus random,WV2 2020-03-15,grass with path
+T25-093,2025,87.299496,22.315877,open land,2,low,campus random,WV3 2024-01-13,grass with path
+T20-094,2020,87.297558,22.319259,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-094,2025,87.297558,22.319259,vegetation,1,low,campus random,WV3 2024-01-13,canopy
+T20-095,2020,87.298461,22.316777,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-095,2025,87.298461,22.316777,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-096,2020,87.307225,22.321469,vegetation,1,low,campus random,WV2 2020-03-15,tree crown on lawn by road
+T25-096,2025,87.307225,22.321469,vegetation,1,low,campus random,WV3 2024-01-13,tree crown on lawn by road
+T20-097,2020,87.304269,22.321285,open land,2,low,campus random,WV2 2020-03-15,construction ground
+T25-097,2025,87.304269,22.321285,built-up,0,medium,campus random,WV3 2024-01-13,solar roofs
+T20-098,2020,87.296304,22.310118,open land,2,medium,campus random,WV2 2020-03-15,lawn edge
+T25-098,2025,87.296304,22.310118,open land,2,low,campus random,WV3 2024-01-13,lawn with tree shade
+T20-099,2020,87.308358,22.315441,open land,2,high,campus random,WV2 2020-03-15,sports field
+T25-099,2025,87.308358,22.315441,open land,2,high,campus random,WV3 2024-01-13,sports field
+T20-100,2020,87.304381,22.320614,vegetation,1,low,campus random,WV2 2020-03-15,road edge under canopy
+T25-100,2025,87.304381,22.320614,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-101,2020,87.298432,22.310559,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-101,2025,87.298432,22.310559,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-102,2020,87.310848,22.315261,vegetation,1,medium,campus random,WV2 2020-03-15,canopy beside building
+T25-102,2025,87.310848,22.315261,vegetation,1,medium,campus random,WV3 2024-01-13,canopy beside building
+T20-103,2020,87.294205,22.313699,vegetation,1,low,campus random,WV2 2020-03-15,canopy and garden by house
+T25-103,2025,87.294205,22.313699,vegetation,1,low,campus random,WV3 2024-01-13,canopy and garden by house
+T20-104,2020,87.306415,22.316226,built-up,0,medium,campus random,WV2 2020-03-15,flat roof
+T20-105,2020,87.313030,22.321306,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-105,2025,87.313030,22.321306,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-106,2020,87.315569,22.309713,open land,2,medium,campus random,WV2 2020-03-15,dirt road in dry grass
+T25-106,2025,87.315569,22.309713,vegetation,1,low,campus random,WV3 2024-01-13,scrub
+T20-107,2020,87.310601,22.313142,open land,2,low,campus random,WV2 2020-03-15,bare ground by trees
+T25-107,2025,87.310601,22.313142,vegetation,1,low,campus random,WV3 2024-01-13,canopy
+T20-108,2020,87.301305,22.317979,built-up,0,medium,campus random,WV2 2020-03-15,stand roof at swimming pool
+T20-109,2020,87.297777,22.319790,open land,2,low,campus random,WV2 2020-03-15,lawn south of red-roof hostel (2024 roofs lean)
+T25-109,2025,87.297777,22.319790,open land,2,low,campus random,WV3 2024-01-13,lawn south of red-roof hostel (2024 roofs lean)
+T20-110,2020,87.298981,22.310353,vegetation,1,medium,campus random,WV2 2020-03-15,canopy beside road
+T25-110,2025,87.298981,22.310353,vegetation,1,medium,campus random,WV3 2024-01-13,canopy beside road
+T20-111,2020,87.300473,22.321020,built-up,0,medium,campus random,WV2 2020-03-15,building under construction
+T25-111,2025,87.300473,22.321020,built-up,0,medium,campus random,WV3 2024-01-13,finished block
+T20-112,2020,87.311187,22.307861,built-up,0,low,campus random,WV2 2020-03-15,house roof
+T25-112,2025,87.311187,22.307861,vegetation,1,low,campus random,WV3 2024-01-13,canopy
+T20-113,2020,87.325261,22.314287,open land,2,medium,campus random,WV2 2020-03-15,laterite track and bare ground
+T25-113,2025,87.325261,22.314287,vegetation,1,low,campus random,WV3 2024-01-13,scrub
+T20-114,2020,87.295731,22.312482,built-up,0,low,campus random,WV2 2020-03-15,long roof under trees
+T25-114,2025,87.295731,22.312482,vegetation,1,low,campus random,WV3 2024-01-13,canopy
+T20-115,2020,87.308301,22.310809,built-up,0,low,campus random,WV2 2020-03-15,small roof among trees
+T25-115,2025,87.308301,22.310809,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-116,2020,87.314100,22.308259,open land,2,medium,campus random,WV2 2020-03-15,bare ground with dirt road
+T25-116,2025,87.314100,22.308259,open land,2,medium,campus random,WV3 2024-01-13,cleared ground
+T20-117,2020,87.294952,22.313932,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-117,2025,87.294952,22.313932,vegetation,1,low,campus random,WV3 2024-01-13,canopy
+T20-118,2020,87.312579,22.311764,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-118,2025,87.312579,22.311764,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-119,2020,87.313783,22.320009,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-119,2025,87.313783,22.320009,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-120,2020,87.311445,22.312256,vegetation,1,medium,campus random,WV2 2020-03-15,tree crown
+T25-120,2025,87.311445,22.312256,vegetation,1,medium,campus random,WV3 2024-01-13,tree crown
+T20-121,2020,87.313994,22.315129,open land,2,low,campus random,WV2 2020-03-15,grass with shrubs
+T25-121,2025,87.313994,22.315129,vegetation,1,medium,campus random,WV3 2024-01-13,shrubs closed in
+T20-122,2020,87.308501,22.320837,vegetation,1,low,campus random,WV2 2020-03-15,canopy by road
+T25-122,2025,87.308501,22.320837,vegetation,1,medium,campus random,WV3 2024-01-13,canopy by road
+T20-123,2020,87.326008,22.311433,open land,2,high,campus random,WV2 2020-03-15,dry grass
+T25-123,2025,87.326008,22.311433,open land,2,medium,campus random,WV3 2024-01-13,dry grass
+T20-124,2020,87.305617,22.317780,open land,2,low,campus random,WV2 2020-03-15,grass embankment by stadium
+T25-124,2025,87.305617,22.317780,open land,2,low,campus random,WV3 2024-01-13,grass embankment by stadium
+T20-125,2020,87.323989,22.311530,open land,2,medium,campus random,WV2 2020-03-15,grass and scrub patches
+T25-125,2025,87.323989,22.311530,open land,2,medium,campus random,WV3 2024-01-13,grass and scrub patches
+T20-126,2020,87.307787,22.313136,vegetation,1,low,campus random,WV2 2020-03-15,canopy beside houses
+T20-127,2020,87.301363,22.318786,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-127,2025,87.301363,22.318786,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-128,2020,87.298813,22.319293,vegetation,1,low,campus random,WV2 2020-03-15,garden canopy among buildings
+T25-128,2025,87.298813,22.319293,vegetation,1,low,campus random,WV3 2024-01-13,garden canopy among buildings
+T20-129,2020,87.314638,22.318661,built-up,0,medium,campus random,WV2 2020-03-15,building roof (2024 roofs offset)
+T25-129,2025,87.314638,22.318661,built-up,0,low,campus random,WV3 2024-01-13,building roof (2024 roofs offset)
+T20-130,2020,87.311140,22.313071,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-130,2025,87.311140,22.313071,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-131,2020,87.300658,22.311039,vegetation,1,low,campus random,WV2 2020-03-15,canopy in residential quarter
+T25-131,2025,87.300658,22.311039,vegetation,1,low,campus random,WV3 2024-01-13,canopy in residential quarter
+T20-132,2020,87.295774,22.316357,built-up,0,high,campus random,WV2 2020-03-15,large academic roof
+T25-132,2025,87.295774,22.316357,built-up,0,high,campus random,WV3 2024-01-13,large academic roof
+T20-133,2020,87.296357,22.317261,vegetation,1,low,campus random,WV2 2020-03-15,tree crown at lawn edge
+T25-133,2025,87.296357,22.317261,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-134,2020,87.297736,22.315607,vegetation,1,low,campus random,WV2 2020-03-15,canopy with small clearing
+T25-134,2025,87.297736,22.315607,vegetation,1,medium,campus random,WV3 2024-01-13,canopy with small clearing
+T20-135,2020,87.307930,22.316084,open land,2,high,campus random,WV2 2020-03-15,sports field
+T25-135,2025,87.307930,22.316084,open land,2,high,campus random,WV3 2024-01-13,sports field
+T20-136,2020,87.299600,22.317048,vegetation,1,low,campus random,WV2 2020-03-15,canopy and lawn
+T25-136,2025,87.299600,22.317048,open land,2,low,campus random,WV3 2024-01-13,bare ground
+T20-137,2020,87.306492,22.310479,built-up,0,low,campus random,WV2 2020-03-15,house roof among trees
+T20-138,2020,87.317779,22.314456,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-138,2025,87.317779,22.314456,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-139,2020,87.314460,22.319793,built-up,0,high,campus random,WV2 2020-03-15,red-roof block
+T25-139,2025,87.314460,22.319793,built-up,0,high,campus random,WV3 2024-01-13,red-roof block
+T20-140,2020,87.308744,22.308805,vegetation,1,low,campus random,WV2 2020-03-15,tree crown in dry grass
+T25-140,2025,87.308744,22.308805,vegetation,1,low,campus random,WV3 2024-01-13,tree crown in dry grass
+T20-141,2020,87.304679,22.319153,built-up,0,medium,campus random,WV2 2020-03-15,stadium stand roof
+T25-141,2025,87.304679,22.319153,built-up,0,low,campus random,WV3 2024-01-13,stadium stand roof
+T20-142,2020,87.313472,22.307545,open land,2,low,campus random,WV2 2020-03-15,grass and scrub
+T25-142,2025,87.313472,22.307545,vegetation,1,medium,campus random,WV3 2024-01-13,scrub
+T20-143,2020,87.303825,22.309884,vegetation,1,medium,campus random,WV2 2020-03-15,canopy near house
+T25-143,2025,87.303825,22.309884,vegetation,1,medium,campus random,WV3 2024-01-13,canopy near house
+T20-144,2020,87.307844,22.308876,open land,2,medium,campus random,WV2 2020-03-15,dry grass and rubble
+T25-144,2025,87.307844,22.308876,open land,2,low,campus random,WV3 2024-01-13,dry grass and rubble
+T20-145,2020,87.299395,22.310684,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-145,2025,87.299395,22.310684,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-146,2020,87.299144,22.314494,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-146,2025,87.299144,22.314494,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-147,2020,87.317342,22.307117,open land,2,medium,campus random,WV2 2020-03-15,dry grass with shrubs
+T25-147,2025,87.317342,22.307117,vegetation,1,medium,campus random,WV3 2024-01-13,scrub closed in
+T20-148,2020,87.312881,22.309090,open land,2,low,campus random,WV2 2020-03-15,mottled grass and scrub
+T25-148,2025,87.312881,22.309090,vegetation,1,medium,campus random,WV3 2024-01-13,dense scrub
+T20-149,2020,87.314067,22.307494,open land,2,medium,campus random,WV2 2020-03-15,"dry grass, bare patches"
+T25-149,2025,87.314067,22.307494,vegetation,1,medium,campus random,WV3 2024-01-13,scrub
+T20-150,2020,87.316296,22.321020,built-up,0,low,campus random,WV2 2020-03-15,building frame on construction site
+T25-150,2025,87.316296,22.321020,open land,2,low,campus random,WV3 2024-01-13,bare ground by new block
+T20-151,2020,87.317029,22.316879,built-up,0,high,campus random,WV2 2020-03-15,roof
+T25-151,2025,87.317029,22.316879,built-up,0,high,campus random,WV3 2024-01-13,roof
+T20-152,2020,87.300430,22.311909,vegetation,1,low,campus random,WV2 2020-03-15,crowns at lawn edge
+T25-152,2025,87.300430,22.311909,open land,2,low,campus random,WV3 2024-01-13,lawn in tree shade
+T20-153,2020,87.295187,22.316978,built-up,0,high,campus random,WV2 2020-03-15,hostel roof
+T25-153,2025,87.295187,22.316978,built-up,0,high,campus random,WV3 2024-01-13,hostel roof
+T20-154,2020,87.315487,22.320260,built-up,0,low,campus random,WV2 2020-03-15,roofs and narrow yard
+T25-154,2025,87.315487,22.320260,built-up,0,low,campus random,WV3 2024-01-13,roofs and narrow yard
+T20-155,2020,87.314385,22.309914,open land,2,medium,campus random,WV2 2020-03-15,dry grass
+T25-155,2025,87.314385,22.309914,vegetation,1,low,campus random,WV3 2024-01-13,grass and scrub
+T20-156,2020,87.304342,22.320231,built-up,0,low,campus random,WV2 2020-03-15,small roof
+T25-156,2025,87.304342,22.320231,vegetation,1,low,campus random,WV3 2024-01-13,canopy
+T20-157,2020,87.309720,22.318559,vegetation,1,low,campus random,WV2 2020-03-15,canopy edge over grass
+T25-157,2025,87.309720,22.318559,open land,2,low,campus random,WV3 2024-01-13,grass strip by road
+T20-158,2020,87.300609,22.318991,open land,2,medium,campus random,WV2 2020-03-15,dry grass by path
+T25-158,2025,87.300609,22.318991,vegetation,1,medium,campus random,WV3 2024-01-13,tree crowns
+T20-159,2020,87.302605,22.309830,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-159,2025,87.302605,22.309830,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-160,2020,87.299325,22.317915,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-160,2025,87.299325,22.317915,open land,2,low,campus random,WV3 2024-01-13,"open grass, trees gone"
+T20-161,2020,87.312454,22.319437,built-up,0,low,campus random,WV2 2020-03-15,roof edge with crown
+T25-161,2025,87.312454,22.319437,built-up,0,medium,campus random,WV3 2024-01-13,roof
+T20-162,2020,87.312587,22.318581,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-162,2025,87.312587,22.318581,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-163,2020,87.299265,22.321272,built-up,0,high,campus random,WV2 2020-03-15,academic roof
+T25-163,2025,87.299265,22.321272,built-up,0,high,campus random,WV3 2024-01-13,academic roof
+T20-164,2020,87.302181,22.314455,vegetation,1,low,campus random,WV2 2020-03-15,canopy edge
+T25-164,2025,87.302181,22.314455,open land,2,low,campus random,WV3 2024-01-13,grass clearing in canopy
+T20-165,2020,87.313721,22.311018,open land,2,medium,campus random,WV2 2020-03-15,dry grass and bare
+T25-165,2025,87.313721,22.311018,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-166,2020,87.304015,22.314766,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-166,2025,87.304015,22.314766,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-167,2020,87.304322,22.311947,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-167,2025,87.304322,22.311947,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-168,2020,87.325408,22.311036,open land,2,medium,campus random,WV2 2020-03-15,rubble and bare ground
+T25-168,2025,87.325408,22.311036,open land,2,low,campus random,WV3 2024-01-13,grass and scrub
+T20-169,2020,87.302889,22.320854,vegetation,1,medium,campus random,WV2 2020-03-15,crown between blocks
+T25-169,2025,87.302889,22.320854,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-170,2020,87.299472,22.312639,built-up,0,low,campus random,WV2 2020-03-15,road under crowns
+T25-170,2025,87.299472,22.312639,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-171,2020,87.325537,22.314831,vegetation,1,medium,campus random,WV2 2020-03-15,crowns in courtyard
+T20-172,2020,87.298531,22.314173,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-172,2025,87.298531,22.314173,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-173,2020,87.323726,22.312224,open land,2,medium,campus random,WV2 2020-03-15,"grass and scrub, open"
+T25-173,2025,87.323726,22.312224,open land,2,medium,campus random,WV3 2024-01-13,"grass and scrub, open"
+T20-174,2020,87.302812,22.322056,open land,2,low,campus random,WV2 2020-03-15,"hostel courtyard, grass"
+T25-174,2025,87.302812,22.322056,open land,2,low,campus random,WV3 2024-01-13,"hostel courtyard, grass"
+T20-175,2020,87.302938,22.311233,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-175,2025,87.302938,22.311233,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-176,2020,87.319727,22.309280,open land,2,medium,campus random,WV2 2020-03-15,grass with scattered shrubs
+T25-176,2025,87.319727,22.309280,open land,2,medium,campus random,WV3 2024-01-13,grass with scattered shrubs
+T20-177,2020,87.307177,22.311550,open land,2,medium,campus random,WV2 2020-03-15,open ground among trees
+T25-177,2025,87.307177,22.311550,open land,2,low,campus random,WV3 2024-01-13,grass clearing
+T20-178,2020,87.323234,22.312175,open land,2,medium,campus random,WV2 2020-03-15,grass
+T25-178,2025,87.323234,22.312175,open land,2,medium,campus random,WV3 2024-01-13,grass
+T20-179,2020,87.306394,22.309861,vegetation,1,low,campus random,WV2 2020-03-15,crowns by old structure
+T25-179,2025,87.306394,22.309861,vegetation,1,low,campus random,WV3 2024-01-13,crowns by old structure
+T20-180,2020,87.311083,22.322079,vegetation,1,low,campus random,WV2 2020-03-15,crowns among small roofs
+T25-180,2025,87.311083,22.322079,vegetation,1,low,campus random,WV3 2024-01-13,crowns by new block
+T20-181,2020,87.306976,22.308632,vegetation,1,medium,campus random,WV2 2020-03-15,crown by red-roof hall
+T25-181,2025,87.306976,22.308632,vegetation,1,low,campus random,WV3 2024-01-13,crown over bare ground
+T20-182,2020,87.318823,22.317605,vegetation,1,high,campus random,WV2 2020-03-15,canopy
+T25-182,2025,87.318823,22.317605,vegetation,1,high,campus random,WV3 2024-01-13,canopy
+T20-183,2020,87.295308,22.310906,vegetation,1,low,campus random,WV2 2020-03-15,crown edge on lawn
+T25-183,2025,87.295308,22.310906,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-184,2020,87.306814,22.308100,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-184,2025,87.306814,22.308100,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-185,2020,87.311714,22.317968,built-up,0,medium,campus random,WV2 2020-03-15,red roof
+T25-185,2025,87.311714,22.317968,built-up,0,medium,campus random,WV3 2024-01-13,red roof
+T20-186,2020,87.317643,22.317487,open land,2,low,campus random,WV2 2020-03-15,grass at road junction
+T25-186,2025,87.317643,22.317487,open land,2,low,campus random,WV3 2024-01-13,grass at road junction
+T20-187,2020,87.310635,22.312469,open land,2,medium,campus random,WV2 2020-03-15,grass verge by road
+T25-187,2025,87.310635,22.312469,open land,2,low,campus random,WV3 2024-01-13,grass in shade
+T20-188,2020,87.297323,22.316098,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-188,2025,87.297323,22.316098,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-189,2020,87.320704,22.316793,vegetation,1,high,campus random,WV2 2020-03-15,canopy
+T25-189,2025,87.320704,22.316793,vegetation,1,high,campus random,WV3 2024-01-13,canopy
+T20-190,2020,87.295795,22.313043,vegetation,1,medium,campus random,WV2 2020-03-15,crowns over quarters
+T25-190,2025,87.295795,22.313043,vegetation,1,medium,campus random,WV3 2024-01-13,crowns over quarters
+T20-191,2020,87.317917,22.316638,open land,2,medium,campus random,WV2 2020-03-15,bare yard and grass by building
+T25-191,2025,87.317917,22.316638,open land,2,medium,campus random,WV3 2024-01-13,bare yard and grass by building
+T20-192,2020,87.305837,22.318687,built-up,0,medium,campus random,WV2 2020-03-15,roof
+T25-192,2025,87.305837,22.318687,built-up,0,medium,campus random,WV3 2024-01-13,new block roof
+T20-193,2020,87.311306,22.310792,vegetation,1,medium,campus random,WV2 2020-03-15,crown in scrub
+T25-193,2025,87.311306,22.310792,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-194,2020,87.298384,22.312178,vegetation,1,low,campus random,WV2 2020-03-15,crowns over small compound
+T25-194,2025,87.298384,22.312178,vegetation,1,low,campus random,WV3 2024-01-13,crowns over small compound
+T20-195,2020,87.318432,22.308851,open land,2,medium,campus random,WV2 2020-03-15,dry grass
+T25-195,2025,87.318432,22.308851,open land,2,medium,campus random,WV3 2024-01-13,dry grass
+T20-196,2020,87.314512,22.307299,open land,2,medium,campus random,WV2 2020-03-15,grass with bare patches
+T25-196,2025,87.314512,22.307299,vegetation,1,medium,campus random,WV3 2024-01-13,dense scrub
+T20-197,2020,87.318245,22.315621,vegetation,1,high,campus random,WV2 2020-03-15,canopy
+T25-197,2025,87.318245,22.315621,vegetation,1,high,campus random,WV3 2024-01-13,canopy
+T20-198,2020,87.323550,22.315578,open land,2,medium,campus random,WV2 2020-03-15,dry scrub and bare
+T25-198,2025,87.323550,22.315578,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-199,2020,87.316739,22.308486,open land,2,medium,campus random,WV2 2020-03-15,lawn in walled compound
+T25-199,2025,87.316739,22.308486,open land,2,medium,campus random,WV3 2024-01-13,bare sand by compound
+T20-200,2020,87.294787,22.312602,built-up,0,low,campus random,WV2 2020-03-15,quarters roofs between crowns
+T25-200,2025,87.294787,22.312602,vegetation,1,low,campus random,WV3 2024-01-13,canopy shade
+T20-201,2020,87.321304,22.309684,open land,2,medium,campus random,WV2 2020-03-15,grass
+T25-201,2025,87.321304,22.309684,open land,2,medium,campus random,WV3 2024-01-13,cleared bare ground
+T20-202,2020,87.294159,22.314221,vegetation,1,medium,campus random,WV2 2020-03-15,crowns over quarters
+T25-202,2025,87.294159,22.314221,vegetation,1,medium,campus random,WV3 2024-01-13,crowns over quarters
+T20-203,2020,87.296227,22.311781,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-203,2025,87.296227,22.311781,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-204,2020,87.295117,22.314454,vegetation,1,medium,campus random,WV2 2020-03-15,crowns between quarters
+T25-204,2025,87.295117,22.314454,vegetation,1,low,campus random,WV3 2024-01-13,crowns between quarters
+T20-205,2020,87.324244,22.312036,open land,2,medium,campus random,WV2 2020-03-15,grass and bare
+T25-205,2025,87.324244,22.312036,open land,2,medium,campus random,WV3 2024-01-13,dirt track
+T20-206,2020,87.309345,22.306922,open land,2,low,campus random,WV2 2020-03-15,bare scrap yard ground
+T25-206,2025,87.309345,22.306922,open land,2,medium,campus random,WV3 2024-01-13,grass
+T20-207,2020,87.305865,22.316727,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-207,2025,87.305865,22.316727,open land,2,low,campus random,WV3 2024-01-13,"grass by hall, crowns cut"
+T20-208,2020,87.301177,22.320652,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-208,2025,87.301177,22.320652,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-209,2020,87.302634,22.313770,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-209,2025,87.302634,22.313770,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-210,2020,87.299101,22.308808,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-210,2025,87.299101,22.308808,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-211,2020,87.316024,22.313290,vegetation,1,high,campus random,WV2 2020-03-15,canopy
+T25-211,2025,87.316024,22.313290,vegetation,1,high,campus random,WV3 2024-01-13,canopy
+T20-212,2020,87.323028,22.310464,open land,2,medium,campus random,WV2 2020-03-15,dry grass
+T25-212,2025,87.323028,22.310464,open land,2,medium,campus random,WV3 2024-01-13,dry grass
+T20-213,2020,87.308754,22.313433,vegetation,1,medium,campus random,WV2 2020-03-15,canopy between houses
+T25-213,2025,87.308754,22.313433,vegetation,1,medium,campus random,WV3 2024-01-13,canopy between houses
+T20-214,2020,87.307021,22.311159,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-214,2025,87.307021,22.311159,vegetation,1,low,campus random,WV3 2024-01-13,crowns over bare ground
+T20-215,2020,87.301774,22.311475,vegetation,1,low,campus random,WV2 2020-03-15,crowns by building
+T25-215,2025,87.301774,22.311475,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-216,2020,87.307985,22.310104,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-216,2025,87.307985,22.310104,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-217,2020,87.304683,22.310173,vegetation,1,low,campus random,WV2 2020-03-15,canopy edge over bare
+T25-217,2025,87.304683,22.310173,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-218,2020,87.321373,22.315371,vegetation,1,high,campus random,WV2 2020-03-15,canopy
+T25-218,2025,87.321373,22.315371,vegetation,1,high,campus random,WV3 2024-01-13,canopy
+T20-219,2020,87.308438,22.310189,vegetation,1,low,campus random,WV2 2020-03-15,crowns between houses
+T25-219,2025,87.308438,22.310189,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-220,2020,87.296567,22.313316,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-220,2025,87.296567,22.313316,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-221,2020,87.324605,22.313094,open land,2,medium,campus random,WV2 2020-03-15,grass and scrub
+T25-221,2025,87.324605,22.313094,vegetation,1,low,campus random,WV3 2024-01-13,dense scrub by dry grass patch
+T20-222,2020,87.313233,22.320479,built-up,0,high,campus random,WV2 2020-03-15,roof
+T25-222,2025,87.313233,22.320479,built-up,0,high,campus random,WV3 2024-01-13,roof
+T20-223,2020,87.304827,22.309481,open land,2,low,campus random,WV2 2020-03-15,lawn by dirt road
+T25-223,2025,87.304827,22.309481,vegetation,1,low,campus random,WV3 2024-01-13,crown shade on grass
+T20-224,2020,87.322540,22.311219,open land,2,high,campus random,WV2 2020-03-15,grass by helipad
+T25-224,2025,87.322540,22.311219,open land,2,high,campus random,WV3 2024-01-13,grass by helipad
+T20-225,2020,87.309210,22.317622,built-up,0,high,campus random,WV2 2020-03-15,academic roof
+T25-225,2025,87.309210,22.317622,built-up,0,high,campus random,WV3 2024-01-13,academic roof
+T20-226,2020,87.314997,22.312075,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-226,2025,87.314997,22.312075,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-228,2020,87.310280,22.309857,built-up,0,medium,campus random,WV2 2020-03-15,road
+T25-228,2025,87.310280,22.309857,built-up,0,medium,campus random,WV3 2024-01-13,road
+T20-229,2020,87.306221,22.314731,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-229,2025,87.306221,22.314731,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-230,2020,87.318250,22.310543,open land,2,medium,campus random,WV2 2020-03-15,grass with footpath
+T20-231,2020,87.308601,22.311915,vegetation,1,low,campus random,WV2 2020-03-15,crowns over house edge
+T25-231,2025,87.308601,22.311915,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-232,2020,87.328394,22.311686,open land,2,medium,campus random,WV2 2020-03-15,bare ground and dry grass
+T25-232,2025,87.328394,22.311686,open land,2,low,campus random,WV3 2024-01-13,grass in crown shade
+T20-233,2020,87.326102,22.312509,built-up,0,low,campus random,WV2 2020-03-15,derelict shed row
+T25-233,2025,87.326102,22.312509,vegetation,1,low,campus random,WV3 2024-01-13,overgrown ruin
+T20-234,2020,87.313010,22.310272,open land,2,low,campus random,WV2 2020-03-15,grass by new block
+T25-234,2025,87.313010,22.310272,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-235,2020,87.319386,22.315782,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-235,2025,87.319386,22.315782,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-236,2020,87.306961,22.318470,vegetation,1,low,campus random,WV2 2020-03-15,crowns in courtyard
+T20-237,2020,87.313819,22.311793,open land,2,low,campus random,WV2 2020-03-15,grass and scrub
+T25-237,2025,87.313819,22.311793,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-238,2020,87.308384,22.316110,open land,2,high,campus random,WV2 2020-03-15,playing field
+T25-238,2025,87.308384,22.316110,open land,2,high,campus random,WV3 2024-01-13,playing field
+T20-239,2020,87.304035,22.312858,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-239,2025,87.304035,22.312858,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-240,2020,87.316862,22.313512,vegetation,1,low,campus random,WV2 2020-03-15,shrubs on grass
+T25-240,2025,87.316862,22.313512,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-241,2020,87.311845,22.307291,vegetation,1,low,campus random,WV2 2020-03-15,shrubs over half the square
+T25-241,2025,87.311845,22.307291,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-242,2020,87.310852,22.317997,built-up,0,high,campus random,WV2 2020-03-15,roof
+T25-242,2025,87.310852,22.317997,built-up,0,high,campus random,WV3 2024-01-13,roof with solar panels
+T20-243,2020,87.315342,22.315713,open land,2,medium,campus random,WV2 2020-03-15,crop plots
+T25-243,2025,87.315342,22.315713,open land,2,medium,campus random,WV3 2024-01-13,crop plots
+T20-244,2020,87.313274,22.309457,open land,2,medium,campus random,WV2 2020-03-15,grass and scrub
+T25-244,2025,87.313274,22.309457,vegetation,1,low,campus random,WV3 2024-01-13,scrub thickened
+T20-245,2020,87.326399,22.313285,open land,2,medium,campus random,WV2 2020-03-15,dry grass
+T25-245,2025,87.326399,22.313285,vegetation,1,low,campus random,WV3 2024-01-13,dense scrub
+T20-246,2020,87.306110,22.317554,built-up,0,high,campus random,WV2 2020-03-15,academic roof
+T25-246,2025,87.306110,22.317554,built-up,0,high,campus random,WV3 2024-01-13,academic roof
+T20-247,2020,87.307929,22.320465,built-up,0,low,campus random,WV2 2020-03-15,small roof among crowns
+T25-247,2025,87.307929,22.320465,vegetation,1,low,campus random,WV3 2024-01-13,canopy
+T20-248,2020,87.296980,22.309176,open land,2,low,campus random,WV2 2020-03-15,grass inside L-shaped block
+T25-248,2025,87.296980,22.309176,open land,2,low,campus random,WV3 2024-01-13,grass inside L-shaped block
+T20-249,2020,87.297406,22.311095,vegetation,1,low,campus random,WV2 2020-03-15,crowns
+T25-249,2025,87.297406,22.311095,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-250,2020,87.299542,22.309159,open land,2,medium,campus random,WV2 2020-03-15,bare ground and grass
+T25-250,2025,87.299542,22.309159,open land,2,low,campus random,WV3 2024-01-13,grass in shade
+T20-251,2020,87.315385,22.313190,vegetation,1,high,campus random,WV2 2020-03-15,canopy
+T25-251,2025,87.315385,22.313190,vegetation,1,high,campus random,WV3 2024-01-13,canopy
+T20-252,2020,87.312447,22.307523,vegetation,1,low,campus random,WV2 2020-03-15,scrub
+T25-252,2025,87.312447,22.307523,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-253,2020,87.302128,22.311788,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-253,2025,87.302128,22.311788,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-254,2020,87.306096,22.315852,vegetation,1,low,campus random,WV2 2020-03-15,canopy by block
+T25-254,2025,87.306096,22.315852,built-up,0,low,campus random,WV3 2024-01-13,new wing roof
+T20-255,2020,87.298802,22.313429,vegetation,1,medium,campus random,WV2 2020-03-15,canopy
+T25-255,2025,87.298802,22.313429,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-256,2020,87.310591,22.318393,vegetation,1,low,campus random,WV2 2020-03-15,crowns over path
+T25-256,2025,87.310591,22.318393,vegetation,1,medium,campus random,WV3 2024-01-13,canopy
+T20-257,2020,87.311975,22.318286,vegetation,1,low,campus random,WV2 2020-03-15,crowns north of roof
+T25-257,2025,87.311975,22.318286,vegetation,1,low,campus random,WV3 2024-01-13,crowns north of roof
+T20-258,2020,87.298854,22.314789,vegetation,1,low,campus random,WV2 2020-03-15,crowns behind quarters
+T25-258,2025,87.298854,22.314789,vegetation,1,low,campus random,WV3 2024-01-13,crowns behind quarters
+T20-259,2020,87.300110,22.319097,open land,2,medium,campus random,WV2 2020-03-15,bare ground by courts
+T25-259,2025,87.300110,22.319097,open land,2,medium,campus random,WV3 2024-01-13,grass and bare
+T20-261,2020,87.307038,22.348961,water,3,high,pond outside fence,WV2 2020-03-15,pond
+T25-261,2025,87.307038,22.348961,water,3,high,pond outside fence,WV3 2024-01-13,pond
+T20-262,2020,87.293563,22.325875,water,3,low,pond outside fence,WV2 2020-03-15,pond edge
+T20-263,2020,87.292485,22.325785,water,3,medium,pond outside fence,WV2 2020-03-15,pond
+T25-263,2025,87.292485,22.325785,water,3,medium,pond outside fence,WV3 2024-01-13,pond
+T20-264,2020,87.339108,22.309076,water,3,high,pond outside fence,WV2 2020-03-15,tank
+T25-264,2025,87.339108,22.309076,water,3,high,pond outside fence,WV3 2024-01-13,tank
+T20-265,2020,87.339737,22.335936,water,3,high,pond outside fence,WV2 2020-03-15,pond
+T25-265,2025,87.339737,22.335936,water,3,high,pond outside fence,WV3 2024-01-13,pond
+T20-267,2020,87.352313,22.313747,water,3,high,pond outside fence,WV2 2020-03-15,pond
+T25-267,2025,87.352313,22.313747,water,3,high,pond outside fence,WV3 2024-01-13,pond
+T20-268,2020,87.336143,22.293984,water,3,high,pond outside fence,WV2 2020-03-15,pond
+T25-268,2025,87.336143,22.293984,water,3,high,pond outside fence,WV3 2024-01-13,pond
+T20-269,2020,87.352043,22.313478,water,3,high,pond outside fence,WV2 2020-03-15,pond
+T25-269,2025,87.352043,22.313478,water,3,high,pond outside fence,WV3 2024-01-13,pond
+T20-270,2020,87.351774,22.313747,water,3,medium,pond outside fence,WV2 2020-03-15,pond
+T25-270,2025,87.351774,22.313747,water,3,low,pond outside fence,WV3 2024-01-13,pond edge
+T20-271,2020,87.339557,22.305303,water,3,low,pond outside fence,WV2 2020-03-15,pond by rail embankment
+T25-271,2025,87.339557,22.305303,water,3,medium,pond outside fence,WV3 2024-01-13,pond by rail embankment
+T20-272,2020,87.279549,22.306202,water,3,medium,pond outside fence,WV2 2020-03-15,pond
+T25-272,2025,87.279549,22.306202,water,3,medium,pond outside fence,WV3 2024-01-13,pond
+T20-273,2020,87.337131,22.299105,water,3,medium,pond outside fence,WV2 2020-03-15,pond by bund
+T25-273,2025,87.337131,22.299105,water,3,medium,pond outside fence,WV3 2024-01-13,pond by bund
+T20-274,2020,87.340096,22.286618,water,3,high,pond outside fence,WV2 2020-03-15,pond
+T25-274,2025,87.340096,22.286618,water,3,high,pond outside fence,WV3 2024-01-13,pond
+T20-275,2020,87.340545,22.286888,water,3,high,pond outside fence,WV2 2020-03-15,pond
+T25-275,2025,87.340545,22.286888,water,3,high,pond outside fence,WV3 2024-01-13,pond
+T20-276,2020,87.318446,22.303147,water,3,medium,pond outside fence,WV2 2020-03-15,pond with floating plants
+T25-276,2025,87.318446,22.303147,water,3,low,pond outside fence,WV3 2024-01-13,pond with floating plants
+T20-277,2020,87.333628,22.284822,water,3,high,pond outside fence,WV2 2020-03-15,pond
+T25-277,2025,87.333628,22.284822,water,3,high,pond outside fence,WV3 2024-01-13,pond
+T20-278,2020,87.342342,22.301890,water,3,low,pond outside fence,WV2 2020-03-15,pond edge
+T20-279,2020,87.324825,22.285900,water,3,high,pond outside fence,WV2 2020-03-15,pond in excavated pit
+T25-279,2025,87.324825,22.285900,water,3,high,pond outside fence,WV3 2024-01-13,pond in excavated pit
+T20-280,2020,87.340186,22.305034,built-up,0,medium,pond outside fence,WV2 2020-03-15,"rail embankment, tracks"
+T25-280,2025,87.340186,22.305034,built-up,0,medium,pond outside fence,WV3 2024-01-13,"rail embankment, tracks"
+T20-281,2020,87.343509,22.304674,water,3,high,pond outside fence,WV2 2020-03-15,pond
+T25-281,2025,87.343509,22.304674,water,3,high,pond outside fence,WV3 2024-01-13,pond
+T20-283,2020,87.336862,22.298835,water,3,high,pond outside fence,WV2 2020-03-15,pond
+T25-283,2025,87.336862,22.298835,water,3,high,pond outside fence,WV3 2024-01-13,pond
+T20-284,2020,87.311799,22.349231,water,3,high,pond outside fence,WV2 2020-03-15,pond
+T25-284,2025,87.311799,22.349231,water,3,high,pond outside fence,WV3 2024-01-13,pond
+T20-285,2020,87.348181,22.320575,water,3,low,pond outside fence,WV2 2020-03-15,pond near wooded bank
+T25-285,2025,87.348181,22.320575,water,3,medium,pond outside fence,WV3 2024-01-13,pond
+T20-286,2020,87.336592,22.299105,water,3,medium,pond outside fence,WV2 2020-03-15,pond
+T20-287,2020,87.312428,22.348782,water,3,low,pond outside fence,WV2 2020-03-15,pond by village edge
+T25-287,2025,87.312428,22.348782,water,3,medium,pond outside fence,WV3 2024-01-13,pond
+T20-288,2020,87.311799,22.348782,water,3,high,pond outside fence,WV2 2020-03-15,pond
+T25-288,2025,87.311799,22.348782,water,3,high,pond outside fence,WV3 2024-01-13,pond
+T20-289,2020,87.312338,22.349321,water,3,high,pond outside fence,WV2 2020-03-15,pond
+T25-289,2025,87.312338,22.349321,water,3,high,pond outside fence,WV3 2024-01-13,pond
+T20-290,2020,87.334975,22.338361,water,3,high,pond outside fence,WV2 2020-03-15,pond
+T25-290,2025,87.334975,22.338361,water,3,high,pond outside fence,WV3 2024-01-13,pond

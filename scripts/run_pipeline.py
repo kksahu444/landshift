@@ -30,6 +30,10 @@ DW_FROM = [0, 1, 2, 3, 4, 5, 6, 7]
 DW_TO = [3, 1, 2, 1, 2, 2, 0, 2]
 DW_MIN_AGREEMENT = 0.6
 CLASS_POINTS = [300, 700, 450, 40]
+TREES = 500
+# The water training points are ponds up to 3 km outside the fence (training/NOTES.md), so the stack the
+# training points are read from reaches that far; the maps stay clipped to the campus.
+TRAIN_REGION = aoi.buffer(3500)
 
 
 def add_aoi_cloud(img):
@@ -46,7 +50,7 @@ def prep(img):
                     .copyProperties(img, ['system:time_start']))
 
 
-def seasonal(start, end, cloud_max, scenes_out):
+def seasonal(start, end, cloud_max, scenes_out, region=aoi):
     col = (ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
            .filterBounds(aoi).filterDate(start, end)
            .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 40))
@@ -56,15 +60,15 @@ def seasonal(start, end, cloud_max, scenes_out):
         'date': i.date().format('YYYY-MM-dd'), 'tile': i.get('MGRS_TILE'),
         'tile_cloud_pct': i.get('CLOUDY_PIXEL_PERCENTAGE'), 'aoi_cloud_pct': i.get('aoi_cloud_pct')})))
     scenes_out.extend(f['properties'] for f in scenes.getInfo()['features'])
-    comp = col.map(prep).median().clip(aoi)
+    comp = col.map(prep).median().clip(region)
     return (comp.addBands(comp.normalizedDifference(['B8', 'B4']).rename('NDVI'))
                 .addBands(comp.normalizedDifference(['B11', 'B8']).rename('NDBI'))
                 .addBands(comp.normalizedDifference(['B3', 'B8']).rename('NDWI')))
 
 
-def composite(ep, report):
-    comp = seasonal(ep['start'], ep['end'], CLOUD_AOI_MAX, report.setdefault('scenes', []))
-    dry = seasonal(ep['dry_start'], ep['dry_end'], CLOUD_AOI_MAX_DRY, report.setdefault('scenes_dry', [])).select(
+def composite(ep, report, region=aoi):
+    comp = seasonal(ep['start'], ep['end'], CLOUD_AOI_MAX, report.setdefault('scenes', []), region)
+    dry = seasonal(ep['dry_start'], ep['dry_end'], CLOUD_AOI_MAX_DRY, report.setdefault('scenes_dry', []), region).select(
         ['B4', 'B8', 'B11', 'B12', 'NDVI', 'NDBI', 'NDWI'], ['dB4', 'dB8', 'dB11', 'dB12', 'dNDVI', 'dNDBI', 'dNDWI'])
     sd = ee.Reducer.stdDev()
     return (comp.addBands(comp.select('NDVI').reduceNeighborhood(sd, ee.Kernel.square(1)).rename('NDVI_sd'))
@@ -96,6 +100,12 @@ def labelled_samples(ep, year, report):
     ).randomColumn('r', 42).map(lambda f: f.set('year', year))
     report['samples_per_class'] = samples.aggregate_histogram('class').getInfo()
     return stack, samples
+
+
+def own_points(year):
+    rows = [r for r in csv.DictReader(open(ROOT / 'training' / 'points.csv')) if r['year'] == str(year)]
+    return ee.FeatureCollection([ee.Feature(ee.Geometry.Point([float(r['lon']), float(r['lat'])]), {'class': int(r['class'])})
+                                 for r in rows])
 
 
 def hand_points(year):
@@ -152,13 +162,17 @@ def thumb(img, vis, name, out):
 
 
 def train_forest(results):
-    """The shipped forest: both epochs' samples pooled, 70 % trains it. scripts/date_compound.py reuses it."""
+    """The shipped forest, trained on my WorldView-labelled points of both epochs. scripts/date_compound.py reuses it.
+
+    The Dynamic World samples that used to train it are kept only for the agreement check (`holdout`), on the same
+    30 % split as before.
+    """
     s1, samp1 = labelled_samples(EPOCHS[0], 2020, results['2020'])
     s2, samp2 = labelled_samples(EPOCHS[1], 2025, results['2025'])
-    pooled = samp1.merge(samp2)
-    train = pooled.filter(ee.Filter.lt('r', 0.7))
-    holdout = pooled.filter(ee.Filter.gte('r', 0.7))
-    rf = ee.Classifier.smileRandomForest(numberOfTrees=100, seed=42).train(
+    holdout = samp1.merge(samp2).filter(ee.Filter.gte('r', 0.7))
+    train = ee.FeatureCollection([composite(ep, {}, TRAIN_REGION).sampleRegions(
+        collection=own_points(y), properties=['class'], scale=10, tileScale=4) for ep, y in zip(EPOCHS, (2020, 2025))]).flatten()
+    rf = ee.Classifier.smileRandomForest(numberOfTrees=TREES, seed=42).train(
         features=train, classProperty='class', inputProperties=s1.bandNames())
     return s1, s2, train, holdout, rf
 
@@ -169,7 +183,10 @@ if __name__ == '__main__':
     results = {'campus_ha': aoi.area(1).divide(10000).getInfo(), '2020': {}, '2025': {}}
     s1, s2, train, holdout, rf = train_forest(results)
     results['train'], results['holdout'] = train.size().getInfo(), holdout.size().getInfo()
-    results['importance'] = ee.Dictionary(rf.explain().get('importance')).getInfo()
+    explained = rf.explain().getInfo()
+    results['importance'] = explained['importance']
+    results['oob_error'] = explained['outOfBagErrorEstimate']
+    results['train_per_class'] = train.aggregate_histogram('class').getInfo()
     tested = holdout.classify(rf)
     for year in (2020, 2025):
         results[str(year)]['dw_holdout_accuracy'] = accuracy(
