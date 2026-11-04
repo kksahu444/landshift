@@ -36,10 +36,13 @@ def sankey():
     L, Rt = stack(left), stack(right)
     lcur = [sp[0] for sp in L]
     rcur = [sp[0] for sp in Rt]
-    out = []
+    out, labels = [], []
     order = [(a, b) for a in range(4) for b in range(4) if flow[a][b] > 0]
     for a, b in order:
-        h = max(flow[a][b] * s, 0.02) if a != 3 else L[3][0] - L[3][1]
+        # water's bar is stretched to hmin, so its flows split that bar by area instead of using the ha scale
+        h = (L[a][0] - L[a][1]) * flow[a][b] / left[a]
+        if a != b:
+            h = max(h, 0.02)
         y0t, y0b = lcur[a], lcur[a] - h
         y1t, y1b = rcur[b], rcur[b] - h
         lcur[a], rcur[b] = y0b, y1b
@@ -49,13 +52,14 @@ def sankey():
                    f' -- ({x1},{y1b:.3f}) .. controls ({xm},{y1b:.3f}) and ({xm},{y0b:.3f}) .. ({x0},{y0b:.3f}) -- cycle;')
         if a != b and flow[a][b] > 5:
             ym = (y0t + y0b + y1t + y1b) / 4
-            out.append(f'\\node[font=\\scriptsize\\bfseries,text=ink,fill=white,draw=rule,inner sep=1.5pt,rounded corners=2pt] at ({xm},{ym:.3f}) {{{flow[a][b]:.1f} ha}};')
+            labels.append(f'\\node[font=\\scriptsize\\bfseries,text=ink,fill=white,draw=rule,inner sep=1.5pt,rounded corners=2pt] at ({xm},{ym:.3f}) {{{flow[a][b]:.1f} ha}};')
+    out += labels
     for i in range(4):
         (lt, lb), (rt, rb) = L[i], Rt[i]
         out.append(f'\\fill[{COL[i]}] (0,{lt:.3f}) rectangle ({bar},{lb:.3f});')
         out.append(f'\\fill[{COL[i]}] ({W - bar},{rt:.3f}) rectangle ({W},{rb:.3f});')
-        out.append(f'\\node[anchor=east,font=\\scriptsize,align=right] at (-0.08,{(lt + lb) / 2:.3f}) {{{NAMES[i]}\\\\\\textcolor{{muted}}{{{left[i]:.1f} ha}}}};')
-        out.append(f'\\node[anchor=west,font=\\scriptsize,align=left] at ({W + 0.08},{(rt + rb) / 2:.3f}) {{{NAMES[i]}\\\\\\textcolor{{muted}}{{{right[i]:.1f} ha}}}};')
+        out.append(f'\\node[anchor=east,font=\\scriptsize,align=right,inner sep=0] at (-0.12,{(lt + lb) / 2:.3f}) {{{NAMES[i]}\\\\\\textcolor{{muted}}{{{left[i]:.1f} ha}}}};')
+        out.append(f'\\node[anchor=west,font=\\scriptsize,align=left,inner sep=0] at ({W + 0.12},{(rt + rb) / 2:.3f}) {{{NAMES[i]}\\\\\\textcolor{{muted}}{{{right[i]:.1f} ha}}}};')
     out.append(f'\\node[font=\\footnotesize\\bfseries,text=iris] at ({bar / 2},{H + 0.35}) {{2020}};')
     out.append(f'\\node[font=\\footnotesize\\bfseries,text=iris] at ({W - bar / 2},{H + 0.35}) {{2025}};')
     write('sankey', out)
@@ -181,7 +185,7 @@ def significance():
     out = []
     for t in (-100, -50, 0, 50, 100, 150):
         out.append(f'\\draw[{"ink,thick" if t == 0 else "rule"}] ({t * sx:.2f},.3) -- ({t * sx:.2f},-2.2);')
-        out.append(f'\\node[font=\\tiny,text=muted] at ({t * sx:.2f},-2.42) {{{t:+d}}};'.replace('+0', '0'))
+        out.append(f'\\node[font=\\tiny,text=muted] at ({t * sx:.2f},-2.42) {{{t:+d}}};'.replace('+0', '0').replace('{-', '{$-$'))
     for i in range(4):
         y = -.62 * i
         h1 = (a['adjusted_area_95ci_ha'][i][1] - a['adjusted_area_95ci_ha'][i][0]) / 2
@@ -195,7 +199,8 @@ def significance():
         out.append(f'\\fill[ink] ({d * sx:.2f},{y}) circle (2.6pt);')
         out.append(f'\\draw[ink,fill=white] ({mapd * sx:.2f},{y + .22}) +(0,.09) -- +(.09,0) -- +(0,-.09) -- +(-.09,0) -- cycle;')
         verdict = 'REAL CHANGE' if real else 'within error'
-        out.append(f'\\node[anchor=west,font=\\tiny,text={"saffron" if real else "muted"}] at (4.3,{y}) {{{d:+.0f} $\\pm$ {h:.0f} ha \\; {verdict}}};')
+        gain = f'{d:+.0f}'.replace('-', '$-$')
+        out.append(f'\\node[anchor=west,font=\\tiny,text={"saffron" if real else "muted"}] at (4.3,{y}) {{{gain} $\\pm$ {h:.0f} ha \\; {verdict}}};')
     out.append(f'\\node[font=\\tiny,text=muted] at (0,-2.75) {{net change 2020 $\\rightarrow$ 2025 (ha)}};')
     return out
 
